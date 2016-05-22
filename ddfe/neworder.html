@@ -18,55 +18,55 @@
 var callback = {
     // 取用户信息
     finishconfig : function(mydata) {
-        alert(mydata.mysignature);
+        alert(mydata);
 
-        signData = {
-            "verifyAppId" : mydata.myappid,
-            "verifyTimestamp" : mydata.mytemestamp,  // 签名的时间戳
-            "verifySignType" : "sha1",
-            "verifyNonceStr" : mydata.mynoncestr,  //签名字符串
-            "verifySignature" : mydata.mysignature
-        };
+        // signData = {
+        //     "verifyAppId" : mydata.myappid,
+        //     "verifyTimestamp" : mydata.mytemestamp,  // 签名的时间戳
+        //     "verifySignType" : "sha1",
+        //     "verifyNonceStr" : mydata.mynoncestr,  //签名字符串
+        //     "verifySignature" : mydata.mysignature
+        // };
 
-        // 配置信息
-        wx.config({
-            beta: true, // 开启内测接口调用
-            debug: false,
-            appId: mydata.myappid,
-            timestamp: mydata.mytemestamp,
-            nonceStr: mydata.mynoncestr,
-            signature: mydata.mysignature,
-            jsApiList: [
-                'chooseImage',
-            ]
-        });
+        // // 配置信息
+        // wx.config({
+        //     beta: true, // 开启内测接口调用
+        //     debug: false,
+        //     appId: mydata.myappid,
+        //     timestamp: mydata.mytemestamp,
+        //     nonceStr: mydata.mynoncestr,
+        //     signature: mydata.mysignature,
+        //     jsApiList: [
+        //         'chooseImage',
+        //     ]
+        // });
 
-        wx.checkJsApi({
-            jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-            success: function(res) {
-                // 以键值对的形式返回，可用的api值true，不可用为false
-                // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-            }
-        });
+        // wx.checkJsApi({
+        //     jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+        //     success: function(res) {
+        //         // 以键值对的形式返回，可用的api值true，不可用为false
+        //         // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+        //     }
+        // });
 
-        wx.ready(function(){
-            alert("ok");
-        });
+        // wx.ready(function(){
+        //     alert("ok");
+        // });
 
-        wx.error(function(res){
-            alert("error" + res);
-        });
+        // wx.error(function(res){
+        //     alert("error" + res);
+        // });
     },
 };
 
 // html show ready
 $(document).ready(function() {
     // alert(window.location.href);
-    var url = requestfront + "action=config";
+    var requrl = requestfront + "action=config";
     data = {
         url : window.location.href,
     };
-    http_method.ajaxmethod(url,data,"POST","json",callback.finishconfig);
+    http_method.ajaxmethod(requrl,data,"POST","text",callback.finishconfig);
 });
 
 function phonephoto() {
