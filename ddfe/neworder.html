@@ -43,6 +43,7 @@ var callback = {
             jsApiList: [
                 'chooseImage',
                 'uploadImage',
+                'previewImage',
                 'downloadImage',
             ]
         });
@@ -93,7 +94,7 @@ function phonephoto() {
 
             var errMsg = res.errMsg;
             if(errMsg == 'chooseImage:ok') {
-                $("#state").html("选择成功");
+                $("#state").html("选择成功<img src=\"" + selectlocalIds[0] + "\" />");
             } else {
                 alert("上传失败");
             }
