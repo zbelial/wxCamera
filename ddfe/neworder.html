@@ -12,81 +12,83 @@
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body>
-<video id="myVideo" autoplay="autoplay" width="200px" height="200px"></video>
-<br />
-<input type="button" value="拍照" /><br />
-拍照结果：
-<div id="result">
-</div>
+<button type="button" onclick="phonephoto()" >我的照片</button>
 <script>
-var requestfront = "../ddbe/api.php?";
+// 回调
+var callback = {
+    // 取用户信息
+    finishconfig : function(result) {
 
-$(document).ready(init);
-    function init() {
-        //为了便于使用这个接口，先做一下兼容性处理
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        //Google Chrome用webkitGetUserMedia，Firefox用mozGetUserMedia
-        navigator.getUserMedia(
-            {
-                video:true
-            }, 
-            success = function(stream) {
-                $("#myVideo").attr("src", window.webkitURL.createObjectURL(stream));
-                $("#myVideo").play();
-            },
-            error = function(error) {
-                alert(error.name || error);
-            }
-        );  //显示影像
-        //定义button点击后要做什麼
-        $("input[type='button']").click(function () {
-            shoot(); //执行拍照
+        signData = {
+            "verifyAppId" : mydata.myappid,
+            "verifyTimestamp" : mydata.mytemestamp,  // 签名的时间戳
+            "verifySignType" : "sha1",
+            "verifyNonceStr" : mydata.mynoncestr,  //签名字符串
+            "verifySignature" : mydata.mysignature
+        };
+
+        // 配置信息
+        wx.config({
+            beta: true, // 开启内测接口调用
+            debug: false,
+            appId: mydata.myappid,
+            timestamp: mydata.mytemestamp,
+            nonceStr: mydata.mynoncestr,
+            signature: mydata.mysignature,
+            jsApiList: [
+                'chooseImage',
+            ]
         });
-    }
-    
-    //拍照
-    function shoot() {
-        var video = $("#myVideo")[0];
-        var canvas = capture(video);
-        $("#result").empty();
-        $("#result").append(canvas); //呈现图像(拍照结果)
-        var imgData = canvas.toDataURL("image/jpg");
-        var base64String = imgData.substr(22); //取得base64字串
-        //上传，储存图片
 
-        var uploadURL = requestfront + "action=uploadCamera";
-        $.ajax(
-            {
-                url: uploadURL,
-                type: "POST",
-                data: { 
-                    data: base64String 
-                },
-                async: true,
-                dataType:"json",
-                success: function (result) {
-                    alert(result.errorcode);
-                    alert(result.imgurl);
-                    if (result.errorcode >= 0) {
-
-                    };
-                }, error: function (e) {
-                    alert(e.responseText); //alert错误信息
-                }
+        wx.checkJsApi({
+            jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+            success: function(res) {
+                // 以键值对的形式返回，可用的api值true，不可用为false
+                // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
             }
-        );
-    }
-    //从video元素抓取图像到canvas
-    function capture(video) {
-        var canvas = document.createElement('canvas'); //建立canvas js DOM元素
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0); 
-        return canvas;
-    } // 以后的以后
+        });
+
+        wx.ready(function(){
+        });
+
+        wx.error(function(res){
+        });
+    },
+};
+
+// html show ready
+$(document).ready(function() {
+    alert(window.location.href);
+    var take_userinfo_url = requestfront + "action=config";
+    data = {
+        url : window.location.href,
+    };
+    http_method.ajaxmethod(take_userinfo_url,data,"POST","json",callback.finishconfig);
+});
+
+function phonephoto() {
+    wx.chooseImage({
+        count: 1, // 默认9
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        success: function (res) {
+            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+        }
+    });
+}
 </script>
+
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
