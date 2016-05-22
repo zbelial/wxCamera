@@ -119,8 +119,8 @@ class db{
 
             return $returnArr;
         } catch (Exception $e) {
-            // return array('pass' => false);
-            var_dump($e);
+            return array('pass' => false);
+            // var_dump($e);
         }
             
     }
