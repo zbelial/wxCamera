@@ -101,9 +101,9 @@ class be extends \db
             var_dump($ResArr);
             echo "已经存在";
         } else {
-            $ResArr = $this->select_Tab('wx_users')->select_Obj('wx_users_openid,wx_users_sex,wx_users_img,wx_users_nickname')->set_newObj("'$openid','$sex','$headimgurl','$nickname'")->insert_command();
+            // $ResArr = $this->select_Tab('wx_users')->select_Obj('wx_users_openid,wx_users_sex,wx_users_img,wx_users_nickname')->set_newObj("'$openid','$sex','$headimgurl','$nickname'")->insert_command();
 
-            echo $ResArr['pass'];
+            // echo $ResArr['pass'];
         }
 
         
