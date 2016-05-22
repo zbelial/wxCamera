@@ -50,9 +50,11 @@ var callback = {
         });
 
         wx.ready(function(){
+            alert("ok");
         });
 
         wx.error(function(res){
+            alert("error" + res);
         });
     },
 };
