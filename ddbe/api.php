@@ -9,6 +9,9 @@ $action = $_GET['action'];
 
 if ($action == 'getuserinfo') {
 
-	echo $_GET['code'];
+	$code = $_GET['code'];
+	$getOpenidURL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".AppID."&secret=".AppSecret."&code=$code&grant_type=authorization_code";
+
+	$be->getUserInfo($getOpenidURL);
 }
 

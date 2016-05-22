@@ -27,31 +27,6 @@ class be extends \db
         return self::$_instance;
     }
 
-	/*
-     * implements http_method_interface
-     */
-    // 发送post请求
-    public function requestWithPost($url,$dataStr){
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataStr);
-    //    curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_file);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-
-        $arr = curl_exec($ch);
-        curl_close($ch);
-        return $arr;
-    }
-
-    // 发送get请求
-    public function requestWithGet($url) {
-      return file_get_contents($url);
-    }
-
-    
 
     // 获取普通的accesstoken
     public function getAccessToken() {
@@ -78,11 +53,45 @@ class be extends \db
         return $Accesstoken;
     }
 
+    // 获取openid
+    private function getOpenid($url) {
+        $result = $this->requestWithGet($url);
+        $json = json_decode($result);
+
+        echo $json->{'openid'};
+    }
+
+    // 通过openid获取用户信息
+    public function getUserInfo($url) {
+        $this->getOpenid($url);
+    }
+
     // 删除cookie
     public function destoryCookie() {
         foreach($_COOKIE as $key=>$val){
             setcookie($key,"",time()-100);
         }
+    }
+
+    // 发送post请求
+    public function requestWithPost($url,$dataStr){
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataStr);
+    //    curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_file);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $arr = curl_exec($ch);
+        curl_close($ch);
+        return $arr;
+    }
+
+    // 发送get请求
+    public function requestWithGet($url) {
+      return file_get_contents($url);
     }
 
     public function http_post_json($url, $jsonStr){
