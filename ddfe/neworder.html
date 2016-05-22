@@ -13,6 +13,7 @@
 </head>
 <body>
 <h2><div id="state"></div></h2>
+<h2><div id="error"></div></h2>
 <button type="button" onclick="phonephoto()" >选择或者拍摄照片</button>
 <button type="button" onclick="uploadImg()" >上传照片</button>
 <script>
@@ -82,7 +83,7 @@ $(document).ready(function() {
     http_method.ajaxmethod(requrl,data,"POST","json",callback.finishconfig);
 });
 
-var selectlocalIds = ""; // 上传图片的
+var selectlocalIds; // 上传图片的
 
 function phonephoto() {
     wx.chooseImage({
@@ -94,7 +95,12 @@ function phonephoto() {
 
             var errMsg = res.errMsg;
             if(errMsg == 'chooseImage:ok') {
-                $("#state").html("选择成功<img width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[0] + "\" />");
+                var content = "";
+                for(var localId in selectlocalIds) {
+                    content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />";
+                }
+
+                $("#state").html("选择成功" + content);
             } else {
                 alert("上传失败");
             }
@@ -103,28 +109,35 @@ function phonephoto() {
 }
 
 function uploadImg() {
-    wx.uploadImage({
-        localId: selectlocalIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
-        isShowProgressTips: 1, // 默认为1，显示进度提示
+    var content = "";
+    for(var localId in selectlocalIds) {
 
-        success: function (res) {
-            var serverId = res.serverId; // 返回图片的服务器端ID
-            var errMsg = res.errMsg;
+        wx.uploadImage({
+            localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+            isShowProgressTips: 1, // 默认为1，显示进度提示
 
-            if(errMsg == 'uploadImage:ok') {
-                $("#state").html("上传成功");
+            success: function (res) {
+                var serverId = res.serverId; // 返回图片的服务器端ID
+                var errMsg = res.errMsg;
 
-                var downurl = requestfront + "action=downloadimg";
-                var data = {
-                    serverId : serverId,
-                };
+                if(errMsg == 'uploadImage:ok') {
+                    $("#state").html("上传成功");
 
-                http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
-            } else {
-                alert("上传失败");
+                    var downurl = requestfront + "action=downloadimg";
+                    var data = {
+                        serverId : serverId,
+                    };
+
+                    http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
+                } else {
+                    // alert("上传失败");
+                    content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />上传失败<br>";
+                    
+                    $("#error").html(content);
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 
