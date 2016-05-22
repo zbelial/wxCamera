@@ -13,7 +13,8 @@
 </head>
 <body>
 <h2><div id="state"></div></h2>
-<button type="button" onclick="phonephoto()" >我的照片</button>
+<button type="button" onclick="phonephoto()" >选择或者拍摄照片</button>
+<button type="button" onclick="uploadImg()" >上传照片</button>
 <script>
 // 记住js安全域名不要加http://
 var requestfront = "../ddbe/api.php?";
@@ -80,39 +81,57 @@ $(document).ready(function() {
     http_method.ajaxmethod(requrl,data,"POST","json",callback.finishconfig);
 });
 
+var selectlocalIds = ""; // 上传图片的
+
 function phonephoto() {
     wx.chooseImage({
         count: 1, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
         success: function (res) {
-            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+             selectlocalIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 
-            wx.uploadImage({
-                localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
-                isShowProgressTips: 1, // 默认为1，显示进度提示
-
-                success: function (res) {
-                    var serverId = res.serverId; // 返回图片的服务器端ID
-                    var errMsg = res.errMsg;
-
-                    if(errMsg == 'uploadImage:ok') {
-                        $("#state").html("上传成功");
-
-                        var downurl = requestfront + "action=downloadimg";
-                        var data = {
-                            serverId : serverId,
-                        };
-
-                        http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
-                    } else {
-                        alert("上传失败");
-                    }
-                }
-            });
+             if(errMsg == 'chooseImage:ok') {
+                $("#state").html("选择成功");
+            } else {
+                alert("上传失败");
+            }
         }
     });
 }
+
+function uploadImg() {
+    wx.uploadImage({
+        localId: selectlocalIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+        isShowProgressTips: 1, // 默认为1，显示进度提示
+
+        success: function (res) {
+            var serverId = res.serverId; // 返回图片的服务器端ID
+            var errMsg = res.errMsg;
+
+            if(errMsg == 'uploadImage:ok') {
+                $("#state").html("上传成功");
+
+                var downurl = requestfront + "action=downloadimg";
+                var data = {
+                    serverId : serverId,
+                };
+
+                http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
+            } else {
+                alert("上传失败");
+            }
+        }
+    });
+}
+
+
+
+
+
+
+
+
 </script>
 
 
