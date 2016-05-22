@@ -72,7 +72,40 @@ class be extends \db
 
         $result = $this->requestWithGet("https://api.weixin.qq.com/sns/userinfo?access_token=$accesstoken&openid=$openid&lang=zh_CN");
 
-        var_dump($result);
+        $resultjson = json_decode($result);
+        $nickname = $resultjson->{'nickname'};
+        $sex = $resultjson->{'sex'};
+        $headimgurl = $resultjson->{'headimgurl'};
+
+        /* var_dump($result);
+        [json object]
+        {  
+           "openid":" OPENID",
+           " nickname": NICKNAME,
+           "sex":"1",
+           "province":"PROVINCE"
+           "city":"CITY",
+           "country":"COUNTRY",
+            "headimgurl":    "http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/46", 
+            "privilege":[
+            "PRIVILEGE1"
+            "PRIVILEGE2"
+            ],
+            "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"
+        }
+        */
+
+        $ResArr = $this->select_Tab('wx_users')->select_Obj('*')->select_Where("wx_users_openid=$openid")->search_command();
+
+        if (count($ResArr) >= 0) {
+            echo "已经存在";
+        } else {
+            $ResArr = $this->select_Tab('wx_users')->select_Obj('wx_users_openid,wx_users_sex,wx_users_img,wx_users_nickname')->set_newObj("'$openid','$sex','$headimgurl','$nickname'")->insert_command();
+
+            echo $ResArr['pass'];
+        }
+
+        
     }
 
     // 删除cookie
