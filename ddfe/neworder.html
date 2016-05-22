@@ -12,6 +12,7 @@
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body>
+<h2><div id="state"></div></h2>
 <button type="button" onclick="phonephoto()" >我的照片</button>
 <script>
 // 记住js安全域名不要加http://
@@ -40,7 +41,8 @@ var callback = {
             signature: mydata.mysignature,
             jsApiList: [
                 'chooseImage',
-                'uploadImage'
+                'uploadImage',
+                'downloadImage',
             ]
         });
 
@@ -89,7 +91,16 @@ function phonephoto() {
                     var errMsg = res.errMsg;
 
                     if(errMsg == 'uploadImage:ok') {
-                        alert("上传成功");
+                        $("#state").html("上传成功");
+                        // alert("上传成功");
+
+                        wx.downloadImage({
+                            serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function (res) {
+                                var localId = res.localId; // 返回图片下载后的本地ID
+                            }
+                        });
                     } else {
                         alert("上传失败");
                     }
