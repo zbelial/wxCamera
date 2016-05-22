@@ -18,6 +18,7 @@
 var callback = {
     // 取用户信息
     finishconfig : function(mydata) {
+        alert(mydata.mysignature);
 
         signData = {
             "verifyAppId" : mydata.myappid,
@@ -58,12 +59,12 @@ var callback = {
 
 // html show ready
 $(document).ready(function() {
-    alert(window.location.href);
-    var take_userinfo_url = requestfront + "action=config";
+    // alert(window.location.href);
+    var url = requestfront + "action=config";
     data = {
         url : window.location.href,
     };
-    http_method.ajaxmethod(take_userinfo_url,data,"POST","json",callback.finishconfig);
+    http_method.ajaxmethod(url,data,"POST","json",callback.finishconfig);
 });
 
 function phonephoto() {
