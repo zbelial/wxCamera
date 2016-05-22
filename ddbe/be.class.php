@@ -73,6 +73,7 @@ class be extends \db
         $result = $this->requestWithGet("https://api.weixin.qq.com/sns/userinfo?access_token=$accesstoken&openid=$openid&lang=zh_CN");
 
         $resultjson = json_decode($result);
+
         $nickname = $resultjson->{'nickname'};
         $sex = $resultjson->{'sex'};
         $headimgurl = $resultjson->{'headimgurl'};
@@ -107,7 +108,7 @@ class be extends \db
             // var_dump($ResArr);
             // echo "已经存在";
 
-            header("Location: ../ddfe/");
+            header("Location: ../ddfe/index.html");
             exit();
         } else {
             // 如果此用户不存在的话就 加入此用户
@@ -115,7 +116,7 @@ class be extends \db
 
             if($InsertResArr['pass'] == true) {
 
-                header("Location: ../ddfe/");
+                header("Location: ../ddfe/index.html");
                 exit();
             } else {
 

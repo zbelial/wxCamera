@@ -25,7 +25,7 @@ switch ($action) {
 
 	case 'takeuserinfo':
 		session_start();
-		$returnArr = array('nickname' => $_SESSION['nickname'], 'sex' => $_SESSION['sex'],'img' => $_SESSION['headimgurl']);
+		$returnArr = array('nickname' => 1, 'sex' => 1,'img' => 1);
 		echo json_encode($returnArr);
 		break;
 	
