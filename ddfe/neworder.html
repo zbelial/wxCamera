@@ -96,8 +96,11 @@ function phonephoto() {
             var errMsg = res.errMsg;
             if(errMsg == 'chooseImage:ok') {
                 var content = "";
+
                 for(var localId in selectlocalIds) {
-                    content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />";
+                    content = 
+                    content + 
+                    "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />";
                 }
 
                 $("#state").html("选择成功" + content);
@@ -132,7 +135,7 @@ function uploadImg() {
                 } else {
                     // alert("上传失败");
                     content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />上传失败<br>";
-                    
+
                     $("#error").html(content);
                 }
             }
