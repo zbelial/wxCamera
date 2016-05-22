@@ -110,8 +110,6 @@ class db{
     public function search_command(){
         $this->sql_str = "SELECT $this->object_str FROM $this->TabName".$this->where_str.$this->other_Str;
 
-        $key = md5($this->sql_str);
-
         try {
             $sql_query = $this->PDO_LINK->query($this->sql_str);
             $returnArr = $sql_query->fetchAll(PDO::FETCH_ASSOC);
@@ -121,7 +119,8 @@ class db{
 
             return $returnArr;
         } catch (Exception $e) {
-            return array('pass' => false);
+            // return array('pass' => false);
+            var_dump($e);
         }
             
     }
