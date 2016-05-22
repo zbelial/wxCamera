@@ -63,7 +63,10 @@ var callback = {
         });
     },
     finishdownload : function(result) { // 下载回调
-        alert(result.errorcode);
+        // alert(result.errorcode);
+        if (result.errorcode > 0) {
+            $("#state").html(result.filename + "下载到服务器成功");
+        };
     },
 };
 
