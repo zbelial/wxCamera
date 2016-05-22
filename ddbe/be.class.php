@@ -3,28 +3,28 @@
 namespace classes;
 
 include('PathFile.php');
-require_once(ROOT_PATH.'/Config_wx.php');
-require_once(UTILTIES_PATH.'/http.interface.php');
-require_once(UTILTIES_PATH.'/api_sql.class.php');
-
-use Utilties\interfaces\http as ahttp;
-use api\sqlClass as api_sql_utilties;
+include('db.class.php');
+require_once(CONF_PATH.'/wxconfig.php');
 
 define('GET_ACCESSTOKEN_URL', 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&'); 
+define('ACTOKEN', 'access_token');
 
-/**
-* 公共api
-*/
-class common_api extends api_sql_utilties\api_sql implements ahttp\http_method_interface
+class be extends \db
 {
+    protected static $_instance = null;
 	
-	function __construct($initDB = false, $DBname, $DBip, $DBuser, $DBpwd) {
-        
-        if ($initDB == true) {
-            parent::__construct($DBname, $DBip, $DBuser, $DBpwd);
-        } else {
-            
-        }
+	function __construct() {
+        $dbarr = include(CONF_PATH.'/dbconfig.php');
+        parent::__construct($dbarr['DBNAME'], $dbarr['DBHOST'], $dbarr['DBUSER'], $dbarr['DBPASS']);
+    }
+
+    // 单例
+    public function getInstance() {
+
+        if (self::$_instance === null) {
+            self::$_instance = new self();
+        } 
+        return self::$_instance;
     }
 
 	/*
@@ -51,6 +51,40 @@ class common_api extends api_sql_utilties\api_sql implements ahttp\http_method_i
       return file_get_contents($url);
     }
 
+    
+
+    // 获取普通的accesstoken
+    public function getAccessToken() {
+        if ($_COOKIE[ACTOKEN] || isset($_COOKIE[ACTOKEN])) {
+            return $_COOKIE[ACTOKEN];
+        } else {
+            return $this->newAccesstoken();
+        }
+    }
+
+    // 获取新的accesstoken;
+    public function newAccesstoken() {
+        // 开始获取accesstoken
+        $RequestAccesstokenURL = GET_ACCESSTOKEN_URL.'appid='.AppID.'&secret='.AppSecret;
+        $AccessTokenJson = $this->requestWithGet($RequestAccesstokenURL);
+        $AccessTokenResult = json_decode($AccessTokenJson);
+
+        $Accesstoken = $AccessTokenResult->{'access_token'};
+        $expires_in = $AccessTokenResult->{'expires_in'}; // 有效时间
+
+        // access_token存入Cookie
+        setcookie(ACTOKEN, $Accesstoken,time()+$expires_in);
+
+        return $Accesstoken;
+    }
+
+    // 删除cookie
+    public function destoryCookie() {
+        foreach($_COOKIE as $key=>$val){
+            setcookie($key,"",time()-100);
+        }
+    }
+
     public function http_post_json($url, $jsonStr){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -67,54 +101,6 @@ class common_api extends api_sql_utilties\api_sql implements ahttp\http_method_i
         curl_close($ch);
         return $response;
     } 
-    /*
-     * end implements http_method_interface
-     */
-
-    public function getAccessToken() {
-    	// $tokenJson = json_decode($this->requestWithGet(ACCESSTOKEN_URL));
-    	// return $tokenJson->{'accessToken'};
-        //STOR_PATH
-
-        $tokenJson = file_get_contents(ACTOKEN_JSON_PATH);
-        $tokendata = json_decode($tokenJson);
-
-        $now_get_time = time();
-        $destory_time = $tokendata->{'destory_time'};
-        $expires_in = $tokendata->{'expires_in'};
-
-        // 没有过期
-        if ((($destory_time - $now_get_time) < $expires_in) && (($destory_time - $now_get_time) > 0)) {
-        // if (($destory_time - $now_get_time) < 1) { date('Y-m-d H:i:s', 1156219870);
-            // echo "没有过期".($destory_time - $now_get_time).','.date('Y-m-d H:i:s', $destory_time).','.date('Y-m-d H:i:s', $now_get_time).$tokendata->{'access_token'};
-            return $tokendata->{'access_token'};
-            // return $this->newAccesstoken();
-        } else {
-            // echo "过期了";
-            return $this->newAccesstoken();
-        }
-
-    }
-
-    // 获取新的accesstoken;
-    public function newAccesstoken() {
-        // 开始获取accesstoken
-        $RequestAccesstokenURL = GET_ACCESSTOKEN_URL.'appid='.AppID.'&secret='.AppSecret;
-        $AccessTokenJson = $this->requestWithGet($RequestAccesstokenURL);
-        $AccessTokenResult = json_decode($AccessTokenJson);
-
-        $Accesstoken = $AccessTokenResult->{'access_token'};
-        $expires_in = $AccessTokenResult->{'expires_in'}; // 有效时间
-
-        $nowtime = time();
-        $destory_time = $nowtime + $expires_in; // 过期时间
-
-        $respArr = array('access_token' => $Accesstoken, 'destory_time' => $destory_time, 'expires_in' => $expires_in);
-
-        $this->write_to_actoken_json($respArr);
-
-        return $Accesstoken;
-    }
 
 }
 

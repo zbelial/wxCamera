@@ -1,5 +1,5 @@
 <?php 
-namespace utilties;
+// namespace utilties;
 
 class db{
 
@@ -14,6 +14,8 @@ class db{
     private $newObj_str = null;
     private $sql_str = null;
     public  $PDO_LINK = null;
+
+    // protected static $_instance = null;
 
     // 连接数据库
     function __construct($DBname, $DBip, $DBuser, $DBpwd){
@@ -35,6 +37,16 @@ class db{
 
         $this->PDO_LINK->query('set names utf8');
     }
+
+    // SingleExp
+    // public function getInstance($DBname,$DBip,$DBuser,$DBpwd) {
+
+    //     if (self::$_instance === null) {
+    //         self::$_instance = new self($DBname,$DBip,$DBuser,$DBpwd);
+    //     } 
+    //     return self::$_instance;
+    // }
+
     // 释放连接
     public function overConnect(){
         $this->PDO_LINK = null;
