@@ -58,12 +58,18 @@ class be extends \db
         $result = $this->requestWithGet($url);
         $json = json_decode($result);
 
-        echo $json->{'openid'};
+        return $json->{'openid'};
     }
 
     // 通过openid获取用户信息
     public function getUserInfo($url) {
-        $this->getOpenid($url);
+        $openid = $this->getOpenid($url);
+        //https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+        $accesstoken = $this->getAccessToken();
+
+        $result = $this->requestWithGet("https://api.weixin.qq.com/sns/userinfo?access_token=$accesstoken&openid=$openid&lang=zh_CN");
+
+        var_dump($result);
     }
 
     // 删除cookie
