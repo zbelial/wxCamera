@@ -4,7 +4,7 @@ namespace classes;
 
 include('PathFile.php');
 include('db.class.php');
-require_once(CONF_PATH.'/wxconfig.php');
+include(CONF_PATH.'/wxconfig.php');
 
 define('GET_ACCESSTOKEN_URL', 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&'); 
 define('ACTOKEN', 'access_token');

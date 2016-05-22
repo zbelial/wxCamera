@@ -2,6 +2,7 @@
 header('content-type:text/html;charset=utf-8');
 date_default_timezone_set("Asia/Shanghai");
 
+if(!define("PROJECT_URL")) 			define("PROJECT_URL","http://numberwolf.top/wxCamera/");
 /*************************************
  *
  *			 微信公众号配置

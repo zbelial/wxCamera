@@ -1,6 +1,7 @@
 <?php 
 include('PathFile.php');
 include_once('be.class.php');
+include(CONF_PATH.'/wxconfig.php');
 
 $be = \classes\be::getInstance();
 // echo $be->getAccessToken();
@@ -14,6 +15,27 @@ $action = $_GET['action'];
 
 // 	$be->getUserInfo($getOpenidURL);
 // }
+
+function convert_data($data){
+	$image=base64_decode(str_replace('data:image/jpeg;base64,','',$data));
+	save_to_file($image);
+}
+
+function save_to_file($image){
+	$filename='ddstorage/'.time();
+	$filename.='.jpg';
+	$fp = fopen($filename,'w') or die("Unable to open file!");
+	$result = fwrite($fp,$image);
+	$returnArr = array(
+		'errorcode' => $result, 
+		'imgurl' => PROJECT_URL.'ddbe/'.$filename
+	);
+
+	echo json_encode($returnArr);
+	fclose($fp);
+}
+
+// convert_data($_REQUEST['data']);
 
 switch ($action) {
 	case 'getuserinfo':
@@ -29,6 +51,10 @@ switch ($action) {
 		echo json_encode($returnArr);
 		break;
 	
+	case 'uploadCamera':
+		convert_data($_REQUEST['data']);
+		break;
+
 	default:
 		break;
 }

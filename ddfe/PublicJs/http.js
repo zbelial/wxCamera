@@ -8,6 +8,7 @@
 // }
 
 /****** ajax对象 *******/
+// var projecturl = window.location.href.split("?")[0]; // 获取url前缀
 var http_method = {
 
 	ajaxmethod : function(url,datadic,types,dataType,successfunc) {
