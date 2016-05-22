@@ -95,7 +95,7 @@ class be extends \db
         }
         */
 
-        $ResArr = $this->select_Tab('wx_users')->select_Obj('*')->select_Where("wx_users_openid=$openid")->search_command();
+        $ResArr = $this->select_Tab('wx_users')->select_Obj('*')->select_Where("wx_users_openid='$openid'")->search_command();
 
         if (count($ResArr) > 0) {
             var_dump($ResArr);
