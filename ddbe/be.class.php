@@ -53,6 +53,40 @@ class be extends \db
         return $Accesstoken;
     }
 
+    // 下载图片到本地
+    public function downloadImg($serverId) {
+        $access_token = $this->getAccessToken();
+        //http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID
+
+        $url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=$serverId";
+        $filename = time();
+
+        $res = $this->GrabImage($url,$filename,'ddstorage/');
+
+        return array(
+            'errorcode' => $res, 
+            'filename' => $filename 
+        );
+    }
+
+    private function GrabImage($url,$filename='',$path) {
+        if($url==''):return false;endif;
+        if($filename=='') {
+            $ext=strrchr($url,'.');
+        if($ext!='.gif' && $ext!='.jpg'):return false;endif;$filename=date('dMYHis').$ext;
+        }
+        ob_start();
+        readfile($url);
+        $img = ob_get_contents();
+        ob_end_clean();
+        $size = strlen($img);
+        $fp2=@fopen($path.$filename, 'a');
+        $result = fwrite($fp2,$img);
+        fclose($fp2);
+
+        return $result;
+    }
+
     // 获取openid
     private function getOpenid($url) {
         $result = $this->requestWithGet($url);

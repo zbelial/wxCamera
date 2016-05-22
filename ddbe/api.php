@@ -67,8 +67,13 @@ switch ($action) {
 	        "mynoncestr"=> $configArr['noncestr'],
 	        "mysignature"=> $configArr['js_signature']
 	    );
-	    
+
 	    echo json_encode($returnArr);
+		break;
+
+	case 'downloadimg':
+		$serverId = $_POST['serverId'];
+		echo json_encode($be->downloadImg($serverId));
 		break;
 
 	default:

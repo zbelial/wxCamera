@@ -62,6 +62,9 @@ var callback = {
             alert("error" + res);
         });
     },
+    finishdownload : function(result) { // 下载回调
+        alert(result.errorcode);
+    },
 };
 
 // html show ready
@@ -92,15 +95,13 @@ function phonephoto() {
 
                     if(errMsg == 'uploadImage:ok') {
                         $("#state").html("上传成功");
-                        // alert("上传成功");
 
-                        wx.downloadImage({
-                            serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-                            isShowProgressTips: 1, // 默认为1，显示进度提示
-                            success: function (res) {
-                                var localId = res.localId; // 返回图片下载后的本地ID
-                            }
-                        });
+                        var downurl = requestfront + "action=downloadimg";
+                        var data = {
+                            serverId : serverId,
+                        };
+
+                        http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
                     } else {
                         alert("上传失败");
                     }
