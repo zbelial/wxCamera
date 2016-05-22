@@ -5,4 +5,4 @@ read -p "此次上传:"  val
 ##echo $val
 git commit -m $val
 git push origin master
-# ssh -p 22 root@123.56.154.87 'cd /var/www/html/RollerPHP_framework && git pull origin master';  
+ssh -p 22 root@numberwolf.top 'cd /var/www/html/wxCamera && git reset --hard && git pull origin master';  
