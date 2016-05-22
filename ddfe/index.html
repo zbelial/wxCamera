@@ -18,13 +18,13 @@ var requestfront = "../ddbe/api.php?";
 var callback = {
 	// 取用户信息
 	finishtakeUserinfo : function(result) {
-		// console.log(result);
-		$("#output").html(
-			"Name:" + result.nickname
-			+ "<hr>Sex:" + result.sex
-			+ "<hr>Img:<img src=\"" + result.img
-			+ "\" >"
-		);
+		console.log(result);
+		// $("#output").html(
+		// 	"Name:" + result.nickname
+		// 	+ "<hr>Sex:" + result.sex
+		// 	+ "<hr>Img:<img src=\"" + result.img
+		// 	+ "\" >"
+		// );
 	},
 };
 
