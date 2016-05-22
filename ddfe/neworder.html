@@ -53,7 +53,7 @@ var callback = {
         });
 
         wx.ready(function(){
-            alert("ok");
+            // alert("ok");
         });
 
         wx.error(function(res){
@@ -83,8 +83,16 @@ function phonephoto() {
             wx.uploadImage({
                 localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 1, // 默认为1，显示进度提示
+
                 success: function (res) {
                     var serverId = res.serverId; // 返回图片的服务器端ID
+                    var errMsg = res.errMsg;
+
+                    if(errMsg == 'uploadImage:ok') {
+                        alert("上传成功");
+                    } else {
+                        alert("上传失败");
+                    }
                 }
             });
         }
