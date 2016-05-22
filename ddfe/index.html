@@ -1,1 +1,47 @@
-<h1>index.html</h1>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>丁丁停车</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="PublicCss/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="PublicCss/bootstrap-theme.min.css">
+	<script src="PublicJs/jquery.js"></script>
+	<script src="PublicJs/http.js"></script>
+</head>
+<body>
+<div id="output"></div>
+
+<script>
+var requestfront = "../ddbe/api.php?";
+
+$(document).ready(function() {
+	var take_userinfo_url = requestfront + "action=takeuserinfo";
+	http_method.ajaxmethod(take_userinfo_url,null,"json",callback.finishtakeUserinfo);
+});
+
+// 回调
+var callback = {
+	// 取用户信息
+	finishtakeUserinfo : function(result) {
+		// console.log(result);
+		$("#output").html(
+			"Name:" + result.nickname
+			"<hr>Sex:" + result.sex
+			"<hr>Img:<img src=\"" + result.img
+			+ "\" >"
+		);
+	},
+};
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
