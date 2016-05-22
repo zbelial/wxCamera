@@ -14,6 +14,7 @@
 <body>
 <button type="button" onclick="phonephoto()" >我的照片</button>
 <script>
+// 记住js安全域名不要加http://
 var requestfront = "../ddbe/api.php?";
 // 回调
 var callback = {
@@ -65,7 +66,7 @@ $(document).ready(function() {
     // alert(window.location.href);
     var requrl = requestfront + "action=config";
     data = {
-        url : "http://numberwolf.top/wxCamera/ddfe/neworder.html",
+        url : window.location.href,
     };
     http_method.ajaxmethod(requrl,data,"POST","json",callback.finishconfig);
 });
