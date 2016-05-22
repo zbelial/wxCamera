@@ -2,6 +2,7 @@
 include('PathFile.php');
 include_once('be.class.php');
 include(CONF_PATH.'/wxconfig.php');
+include_once('wxcallback.php');
 
 $be = \classes\be::getInstance();
 // echo $be->getAccessToken();
@@ -53,6 +54,21 @@ switch ($action) {
 	
 	case 'uploadCamera':
 		convert_data($_REQUEST['data']);
+		break;
+
+	case 'config':
+
+		$wechatObj = new wechatCallbackapiTest();
+		$configArr = $wechatObj->createConfig(AppID,AppSecret,$_POST['url']); // 创建配置数组
+
+		$returnArr = array(
+	        "myappid"=> $configArr['appid'],
+	        "mytemestamp"=> $configArr['timestamp'],
+	        "mynoncestr"=> $configArr['noncestr'],
+	        "mysignature"=> $configArr['js_signature']
+	    );
+	    
+	    echo json_encode($returnArr);
 		break;
 
 	default:
