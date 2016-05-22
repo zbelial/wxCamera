@@ -14,11 +14,6 @@
 <script>
 var requestfront = "../ddbe/api.php?";
 
-$(document).ready(function() {
-	var take_userinfo_url = requestfront + "action=takeuserinfo";
-	http_method.ajaxmethod(take_userinfo_url,null,"json",callback.finishtakeUserinfo);
-});
-
 // 回调
 var callback = {
 	// 取用户信息
@@ -32,6 +27,13 @@ var callback = {
 		);
 	},
 };
+
+$(document).ready(function() {
+	var take_userinfo_url = requestfront + "action=takeuserinfo";
+	http_method.ajaxmethod(take_userinfo_url,null,"json",callback.finishtakeUserinfo);
+});
+
+
 </script>
 
 </body>
