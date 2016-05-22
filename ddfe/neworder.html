@@ -94,7 +94,7 @@ function phonephoto() {
 
             var errMsg = res.errMsg;
             if(errMsg == 'chooseImage:ok') {
-                $("#state").html("选择成功<img src=\"" + selectlocalIds[0] + "\" />");
+                $("#state").html("选择成功<img width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[0] + "\" />");
             } else {
                 alert("上传失败");
             }
