@@ -56,7 +56,7 @@ class be extends \db
     // 上传工单问题
     public function commmitQuestion($openid,$wx_questions_content,$wx_questions_place,$wx_questions_point,$wx_questions_id,$imgUrlArray) {
         // 使用事务提交
-        $this->PDO_LINK->setAttribute(PDO::ATTR_AUTOCOMMIT,0);
+        $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
         $this->PDO_LINK->beginTransaction(); 
 
         // 插入问题记录
@@ -73,11 +73,11 @@ class be extends \db
         if ($ResQuestion['pass'] == false || $ResImg['pass'] == false ) {
             // 如果某一步错误的话就回滚操作
             $this->PDO_LINK->rollBack(); 
-            $this->PDO_LINK->setAttribute(PDO::ATTR_AUTOCOMMIT,1);
+            $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
             return false;
         }
 
-        $this->PDO_LINK->setAttribute(PDO::ATTR_AUTOCOMMIT,1);
+        $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
         return true;
 
     }

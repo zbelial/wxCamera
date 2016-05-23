@@ -106,6 +106,7 @@ switch ($action) {
 		}
 
 		$commitResult = $be->commmitQuestion($openid,$wx_questions_content,$wx_questions_place,$wx_questions_point,$wx_questions_id,$imgUrlArray);
+		
 		echo json_encode(array('errorcode' => $commitResult));
 
 		break;
