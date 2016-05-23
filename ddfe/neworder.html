@@ -25,12 +25,13 @@
 </h4>
 <!-- <button type="button" class="btn btn-lg btn-success btn-block"  onclick="uploadImg()" >上传照片</button> -->
 <button type="button" class="btn btn-lg btn-success btn-block" onclick="uploadImg()" >提交工单</button>
+
 <script>
 // 记住js安全域名不要加http://
 var requestfront = "../ddbe/api.php?";
 
 var x,y,place; // 位置 
-var selectlocalIds; // 图片本地
+var selectlocalIds = []; // 图片本地
 var selectServerIds = []; // 上传图片的 JSON.stringify();
 
 // html show ready
@@ -162,7 +163,6 @@ function uploadImg() {
                     $("#error").html(content);
 
                     return false;
-                    break;
                 }
             }
         });
