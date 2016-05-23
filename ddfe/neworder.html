@@ -138,6 +138,10 @@ function uploadImg() {
                     $("#state").addClass('alert alert-success');
                     $("#state").html("上传成功");
 
+                    if (i == (selectlocalIds.length - 1)) {
+                        commitQuestions();
+                    };
+
                     // var downurl = requestfront + "action=downloadimg";
                     // var data = {
                     //     serverId : serverId,
@@ -156,8 +160,6 @@ function uploadImg() {
             }
         });
     }
-
-    commitQuestions();
 
     return true;
 }
