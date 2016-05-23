@@ -90,10 +90,13 @@ switch ($action) {
 		// echo $wx_img_url_arr[0];$be->downloadImg($serverId)
 		$imgUrlArray = array(); // 图片名字URL
 
+		$test = "";
 		// 把图片上传并且把url存储进来
 		foreach ($wx_img_url_arr as $key => $value) {
 			// value -> serverId -> mediaId
 			$res = $be->downloadImg($value);
+
+			$test.=$value.";";
 
 			if ($res['errorcode'] == true) {
 				$imgurl = PROJECT_URL."ddbe/".$res['filename'];
@@ -106,8 +109,8 @@ switch ($action) {
 		}
 
 		$commitResult = $be->commmitQuestion($openid,$wx_questions_content,$wx_questions_place,$wx_questions_point,$wx_questions_id,$imgUrlArray);
-		
-		echo json_encode(array('errorcode' => $commitResult));
+
+		echo json_encode(array('errorcode' => $test));
 
 		break;
 
