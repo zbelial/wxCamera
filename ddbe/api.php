@@ -78,8 +78,8 @@ switch ($action) {
 
 	case 'location':
 		session_start();
-		$x = $_SESSION['x'];
-		$y = $_SESSION['y'];
+		$x = $_COOKIE['x'];
+		$y = $_COOKIE['y'];
 		$returnArr = array(
 			'x' => $x, 
 			'y' => $y 
