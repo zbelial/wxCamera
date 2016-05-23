@@ -96,8 +96,6 @@ switch ($action) {
 			// value -> serverId -> mediaId
 			$res = $be->downloadImg($value);
 
-
-
 			if ($res['errorcode'] == true) {
 				$imgurl = PROJECT_URL."ddbe/".$res['filename'];
 				array_push($imgUrlArray,$imgurl);

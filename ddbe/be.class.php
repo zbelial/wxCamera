@@ -92,9 +92,11 @@ class be extends \db
         $isActokenInvalid = file_get_contents($url);
         $isActokenInvalidjson = json_decode($isActokenInvalid);
 
-        if($isActokenInvalidjson->{'errcode'} == '40001') {
+        if($isActokenInvalidjson->{'errcode'} != '0') {
             $access_token = $this->newAccesstoken();
         }
+
+        $url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=$serverId";
 
         $path = 'ddstorage/';
         $filename = time().'.jpg';
@@ -103,7 +105,8 @@ class be extends \db
 
         return array(
             'errorcode' => $res, 
-            'filename' => $path.time().'.jpg' 
+            'filename' => $path.time().'.jpg',
+            'msg' => $isActokenInvalidjson->{'errcode'} 
         );
     }
 
