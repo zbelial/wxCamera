@@ -88,7 +88,7 @@ class be extends \db
         //http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID
 
         $url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=$serverId";
-        $path = 'ddstorage/'
+        $path = 'ddstorage/';
         $filename = $path.time().'.jpg';
 
         $res = $this->GrabImage($url,$filename,$path);
