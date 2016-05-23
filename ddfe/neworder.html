@@ -121,52 +121,52 @@ function phonephoto() {
     });
 }
 
+var content = "";
+var num = 0;
 function uploadImg() {
-    var content = "";
+    alert("no"+num);
 
-    for(var num = 0;num < selectlocalIds.length; num++ ) {
-        alert("no"+num);
+    wx.uploadImage({
+        localId: selectlocalIds[num], // 需要上传的图片的本地ID，由chooseImage接口获得
+        isShowProgressTips: 1, // 默认为1，显示进度提示
 
-        wx.uploadImage({
-            localId: selectlocalIds[num], // 需要上传的图片的本地ID，由chooseImage接口获得
-            isShowProgressTips: 1, // 默认为1，显示进度提示
+        success: function (res) {
+            var serverId = res.serverId; // 返回图片的服务器端ID
+            var errMsg = res.errMsg;
 
-            success: function (res) {
-                var serverId = res.serverId; // 返回图片的服务器端ID
-                var errMsg = res.errMsg;
+            if(errMsg == 'uploadImage:ok') {
+                selectServerIds[num] = serverId;
+                alert('第'+num+'个'+selectServerIds[num]);
 
-                if(errMsg == 'uploadImage:ok') {
-                    selectServerIds[num] = serverId;
-                    alert('第'+num+'个'+selectServerIds[num]);
+                $("#state").addClass('alert alert-success');
+                $("#state").html("上传成功");
 
-                    $("#state").addClass('alert alert-success');
-                    $("#state").html("上传成功");
-
-                    if (num == (selectlocalIds.length - 1)) {
-                        // alert("finish");
-                        commitQuestions();
-                    } else {
-                        // alert("a");
-                    }
-
-                    // var downurl = requestfront + "action=downloadimg";
-                    // var data = {
-                    //     serverId : serverId,
-                    // };
-
-                    // http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
+                if (num == (selectlocalIds.length - 1)) {
+                    // alert("finish");
+                    commitQuestions();
+                    return true;
                 } else {
-                    // alert("上传失败");
-                    content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />上传失败<br>";
-
-                    $("#error").addClass('alert alert-danger');
-                    $("#error").html(content);
-
-                    return false;
+                    num+=1;
+                    uploadImg();
                 }
+
+                // var downurl = requestfront + "action=downloadimg";
+                // var data = {
+                //     serverId : serverId,
+                // };
+
+                // http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
+            } else {
+                // alert("上传失败");
+                content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />上传失败<br>";
+
+                $("#error").addClass('alert alert-danger');
+                $("#error").html(content);
+
+                return false;
             }
-        });
-    }
+        }
+    });
 
     return true;
 }
