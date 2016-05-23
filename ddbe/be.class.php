@@ -53,6 +53,35 @@ class be extends \db
         return $Accesstoken;
     }
 
+    // 上传工单问题
+    public function commmitQuestion($openid,$wx_questions_content,$wx_questions_place,$wx_questions_point,$wx_questions_id,$imgUrlArray) {
+        // 使用事务提交
+        $this->PDO_LINK->setAttribute(PDO::ATTR_AUTOCOMMIT,0);
+        $this->PDO_LINK->beginTransaction(); 
+
+        // 插入问题记录
+        $ResQuestion = $this->select_Tab('wx_questions')->select_Obj('wx_questions_id,wx_questions_openid,wx_questions_content,wx_questions_place,wx_questions_point')->set_newObj("'$wx_questions_id','$openid','$wx_questions_content','$wx_questions_place','$wx_questions_point'")->insert_command();
+
+        $wx_img_array = array();
+        foreach ($imgUrlArray as $key => $value) {
+            array_push($wx_img_array,array($wx_questions_id , $value));
+        }
+
+        // 插入图片记录
+        $ResImg = $this->select_Tab('wx_img')->select_Obj('wx_questions_id,wx_img_url')->insert_new_command($wx_img_array);
+
+        if ($ResQuestion['pass'] == false || $ResImg['pass'] == false ) {
+            // 如果某一步错误的话就回滚操作
+            $this->PDO_LINK->rollBack(); 
+            $this->PDO_LINK->setAttribute(PDO::ATTR_AUTOCOMMIT,1);
+            return false;
+        }
+
+        $this->PDO_LINK->setAttribute(PDO::ATTR_AUTOCOMMIT,1);
+        return true;
+
+    }
+
     // 下载图片到本地
     public function downloadImg($serverId) {
         $access_token = $this->getAccessToken();

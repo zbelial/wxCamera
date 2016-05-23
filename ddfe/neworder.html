@@ -59,13 +59,33 @@ $(document).ready(function() {
 
 // 提交工单
 function commitQuestions() {
+    // var upres = uploadImg(); // 先把图片素材上传到服务器端
+
+    // if (upres == false) {
+    //     alert("上传出错");
+    //     return false;
+    // };
+
     //wx_questions_id 在php服务端用time()获取
     var wx_questions_content = $("#question_content").val();
     var wx_questions_place = place;
     var wx_questions_point = x + "," + y;
-    var wx_img_url_data = JSON.stringify(selectlocalIds);
-    console.log(wx_img_url_data);
-    alert(wx_img_url_data);
+    // var wx_img_url_data = JSON.stringify(selectlocalIds); // 图片serverId数组
+    var test = ["a","b"];
+    var wx_img_url_data = JSON.stringify(test); // 图片serverId数组
+
+    alert("DEBUG:" + wx_img_url_data);
+
+    var requrl = requestfront + "action=commit";
+    // 提交数据
+    var data = {
+        wx_questions_content : wx_questions_content,
+        wx_questions_place : wx_questions_place,
+        wx_questions_point : wx_questions_point,
+        wx_img_url_data : wx_img_url_data,
+    };
+
+    http_method.ajaxmethod(requrl,data,"POST","json",callback.finishcommit);
 }
 
 // 选择或者拍摄图片
@@ -98,6 +118,7 @@ function phonephoto() {
 
 function uploadImg() {
     var content = "";
+
     for(var i = 0;i < selectlocalIds.length; i++ ) {
 
         wx.uploadImage({
@@ -112,22 +133,26 @@ function uploadImg() {
                     $("#state").addClass('alert alert-success');
                     $("#state").html("上传成功");
 
-                    var downurl = requestfront + "action=downloadimg";
-                    var data = {
-                        serverId : serverId,
-                    };
+                    // var downurl = requestfront + "action=downloadimg";
+                    // var data = {
+                    //     serverId : serverId,
+                    // };
 
-                    http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
+                    // http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
                 } else {
                     // alert("上传失败");
                     content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />上传失败<br>";
 
                     $("#error").addClass('alert alert-danger');
                     $("#error").html(content);
+
+                    return false;
                 }
             }
         });
     }
+
+    return true;
 }
 
 // 回调
@@ -184,6 +209,10 @@ var callback = {
     },
     finishlocation : function(result) { // 位置回调
         // alert(result.x);
+    },
+    finishcommit : function(result) {
+        alert(result.errorcode);
+        // console.log(result);
     },
 };
 

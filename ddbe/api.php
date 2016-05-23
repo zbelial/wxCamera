@@ -76,16 +76,38 @@ switch ($action) {
 		echo json_encode($be->downloadImg($serverId));
 		break;
 
-	case 'location':
+	case 'commit':
 		session_start();
-		$x = $_COOKIE['x'];
-		$y = $_COOKIE['y'];
-		$returnArr = array(
-			'x' => $x, 
-			'y' => $y 
-		);
+		$openid = $_SESSION['openid'];
+		$wx_questions_content = $_POST['wx_questions_content'];
+		$wx_questions_place = $_POST['wx_questions_place'];
+		$wx_questions_point = $_POST['wx_questions_point'];
 
-		echo json_encode($returnArr);
+		$wx_img_url_data = $_POST['wx_img_url_data'];
+		$wx_img_url_arr = json_decode($wx_img_url_data);
+		$wx_questions_id = time();
+
+		// echo $wx_img_url_arr[0];$be->downloadImg($serverId)
+		$imgUrlArray = array(); // 图片名字URL
+
+		// 把图片上传并且把url存储进来
+		foreach ($wx_img_url_arr as $key => $value) {
+			// value -> serverId -> mediaId
+			$res = $be->downloadImg($value);
+
+			if ($res['errorcode'] == true) {
+				$imgurl = PROJECT_URL."ddbe/".$res['filename'];
+				array_push($imgUrlArray,$imgurl);
+			} else {
+				echo json_encode(array('errorcode' => false));
+
+				exit();
+			}
+		}
+
+		$commitResult = $be->commmitQuestion($openid,$wx_questions_content,$wx_questions_place,$wx_questions_point,$wx_questions_id,$imgUrlArray);
+		echo json_encode(array('errorcode' => $commitResult));
+
 		break;
 
 	default:
