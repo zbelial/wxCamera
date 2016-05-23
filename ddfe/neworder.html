@@ -124,11 +124,11 @@ function phonephoto() {
 function uploadImg() {
     var content = "";
 
-    for(var i = 0;i < selectlocalIds.length; i++ ) {
-        alert("no"+i);
+    for(var num = 0;num < selectlocalIds.length; num++ ) {
+        alert("no"+num);
 
         wx.uploadImage({
-            localId: selectlocalIds[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+            localId: selectlocalIds[num], // 需要上传的图片的本地ID，由chooseImage接口获得
             isShowProgressTips: 1, // 默认为1，显示进度提示
 
             success: function (res) {
@@ -136,13 +136,13 @@ function uploadImg() {
                 var errMsg = res.errMsg;
 
                 if(errMsg == 'uploadImage:ok') {
-                    selectServerIds[i] = serverId;
-                    alert('第'+i+'个'+selectServerIds[i]);
+                    selectServerIds[num] = serverId;
+                    alert('第'+num+'个'+selectServerIds[num]);
 
                     $("#state").addClass('alert alert-success');
                     $("#state").html("上传成功");
 
-                    if (i == (selectlocalIds.length - 1)) {
+                    if (num == (selectlocalIds.length - 1)) {
                         // alert("finish");
                         commitQuestions();
                     } else {
