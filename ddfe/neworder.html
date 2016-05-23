@@ -12,10 +12,11 @@
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body>
-<h2><div id="state"></div></h2>
-<h2><div id="error"></div></h2>
-<button type="button" onclick="phonephoto()" >选择或者拍摄照片</button>
-<button type="button" onclick="uploadImg()" >上传照片</button>
+<div id="state"></div>
+<div id="error"></div>
+<button type="button" class="btn btn-lg btn-default btn-block" onclick="phonephoto()" >选择或者拍摄照片</button>
+
+<button type="button" class="btn btn-lg btn-success btn-block"  onclick="uploadImg()" >上传照片</button>
 <script>
 // 记住js安全域名不要加http://
 var requestfront = "../ddbe/api.php?";
@@ -100,7 +101,7 @@ function phonephoto() {
                 for(var i = 0;i < selectlocalIds.length; i++ ) {
                     content = 
                     content + 
-                    "<img width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[i] + "\">";
+                    "<img class=\"img-thumbnail\" width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[i] + "\">";
                 }
 
                 $("#state").html("选择成功" + content);
@@ -124,6 +125,7 @@ function uploadImg() {
                 var errMsg = res.errMsg;
 
                 if(errMsg == 'uploadImage:ok') {
+                    $("#state").addClass('alert alert-success');
                     $("#state").html("上传成功");
 
                     var downurl = requestfront + "action=downloadimg";
@@ -136,6 +138,7 @@ function uploadImg() {
                     // alert("上传失败");
                     content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />上传失败<br>";
 
+                    $("#error").addClass('alert alert-danger');
                     $("#error").html(content);
                 }
             }
