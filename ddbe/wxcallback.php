@@ -40,8 +40,11 @@ class wechatCallbackapiTest
             // 获取地理位置
             if ($postObj->Event == "LOCATION") {
                 session_start();
-                $_SESSION['x'] = $postObj->Latitude;
+                $_SESSION['x'] = 'dsadas';
                 $_SESSION['y'] = $postObj->Longitude;
+                setcookie('x',$postObj->Latitude);
+                setcookie('y',$postObj->Longitude);
+
             }
 
             if(!empty( $keyword ))
