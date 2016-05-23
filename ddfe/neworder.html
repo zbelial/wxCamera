@@ -31,7 +31,7 @@ var requestfront = "../ddbe/api.php?";
 
 var x,y,place; // 位置 
 var selectlocalIds; // 图片本地
-var selectServerIds = []; // 上传图片的 JSON.stringify();
+var selectServerIds; // 上传图片的 JSON.stringify();
 
 // html show ready
 $(document).ready(function() {
@@ -133,12 +133,17 @@ function uploadImg() {
                 var errMsg = res.errMsg;
 
                 if(errMsg == 'uploadImage:ok') {
-                    selectServerIds[i] = serverId;
+                    if (i == 0) {
+                        selectServerIds = [serverId];
+                    } else {
+                        selectServerIds[i] = serverId;
+                    }
+                    
                     alert('第'+i+'个'+selectServerIds[i]);
                     $("#state").addClass('alert alert-success');
                     $("#state").html("上传成功");
 
-                    if (i == (selectlocalIds.length)) {
+                    if (i == (selectlocalIds.length - 1)) {
                         // alert("finish");
                         commitQuestions();
                     } else {
