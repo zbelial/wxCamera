@@ -105,6 +105,7 @@ function phonephoto() {
                 var content = "";
 
                 for(var i = 0;i < selectlocalIds.length; i++ ) {
+                    alert(selectlocalIds[i]);
                     content = 
                     content + 
                     "<img class=\"img-thumbnail\" width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[i] + "\">";
@@ -160,6 +161,7 @@ function uploadImg() {
                     $("#error").html(content);
 
                     return false;
+                    break;
                 }
             }
         });
