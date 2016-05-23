@@ -76,6 +76,9 @@ var callback = {
             $("#state").html(result.filename + "下载到服务器成功");
         };
     },
+    finishlocation : function(result) { // 位置回调
+        alert(result.x);
+    },
 };
 
 // html show ready
@@ -86,9 +89,16 @@ $(document).ready(function() {
         url : window.location.href,
     };
     http_method.ajaxmethod(requrl,data,"POST","json",callback.finishconfig);
+
+    getlocation();
 });
 
 var selectlocalIds; // 上传图片的
+
+function getlocation() {
+    var requrl = requestfront + "action=location";
+    http_method.ajaxmethod(requrl,null,"GET","json",callback.finishlocation);
+}
 
 // 选择或者拍摄图片
 function phonephoto() {
@@ -151,13 +161,6 @@ function uploadImg() {
         });
     }
 }
-
-
-
-
-
-
-
 
 </script>
 

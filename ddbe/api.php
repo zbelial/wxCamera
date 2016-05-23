@@ -76,6 +76,18 @@ switch ($action) {
 		echo json_encode($be->downloadImg($serverId));
 		break;
 
+	case 'location':
+		session_start();
+		$x = $_SESSION['x'];
+		$y = $_SESSION['y'];
+		$returnArr = array(
+			'x' => $x, 
+			'y' => $y 
+		);
+
+		echo json_encode($returnArr);
+		break;
+
 	default:
 		break;
 }

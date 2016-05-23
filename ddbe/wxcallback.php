@@ -29,13 +29,21 @@ class wechatCallbackapiTest
             $keyword = trim($postObj->Content);
             $time = time();
             $textTpl = "<xml>
-							<ToUserName><![CDATA[%s]></ToUserName>
-							<FromUserName><![CDATA[%s]></FromUserName>
-							<CreateTime>%s</CreateTime>
-							<MsgType><![CDATA[%s]></MsgType>
-							<Content><![CDATA[%s]></Content>
-							<FuncFlag>0</FuncFlag>
-							</xml>";
+			<ToUserName><![CDATA[%s]></ToUserName>
+			<FromUserName><![CDATA[%s]></FromUserName>
+			<CreateTime>%s</CreateTime>
+			<MsgType><![CDATA[%s]></MsgType>
+			<Content><![CDATA[%s]></Content>
+			<FuncFlag>0</FuncFlag>
+			</xml>";
+
+            // 获取地理位置
+            if ($postObj->Event == "LOCATION") {
+                session_start();
+                $_SESSION['x'] = $postObj->Latitude;
+                $_SESSION['y'] = $postObj->Longitude;
+            }
+
             if(!empty( $keyword ))
             {
                 $msgType = "text";
