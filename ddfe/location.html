@@ -3,6 +3,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<script src="PublicJs/jquery.js"></script>
+<script src="PublicJs/base64jquery.js"></script>
 <title>定位+坐标转换</title>
 <style type="text/css">
 *{
@@ -24,7 +26,7 @@ function getLocation(){
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else{
-  	x.innerHTML="浏览器不支持定位.";
+  	alert("浏览器不支持定位.");
   }
 }
 
@@ -45,24 +47,27 @@ function showPosition(position) {
 	var info = new qq.maps.InfoWindow({map: map});
 	geocoder = new qq.maps.Geocoder({
         complete : function(result){
-        	alert("DEBUG:" + result.detail.address);
+        	// alert("DEBUG:" + result.detail.address);
+        	$('#container').html("area:" + result.detail.address);
 
         	var url = "neworder.html?place=" + result.detail.address + "&x=" + lat + "&y=" + lng;
+        	url = encodeURI(url);
         	window.location.href = url;
+        	// alert(url);
 
-            map.setCenter(result.detail.location);
+            // map.setCenter(result.detail.location);
 
-            marker = new qq.maps.Marker({
-                map:map,
-                position: result.detail.location
-            });
-            //添加监听事件 当标记被点击了  设置图层
-            qq.maps.event.addListener(marker, 'click', function() {
-                info.open();
-                info.setContent('<div style="width:280px;height:100px;">'+
-                    result.detail.address+'</div>');
-                info.setPosition(result.detail.location);
-            });
+            // marker = new qq.maps.Marker({
+            //     map:map,
+            //     position: result.detail.location
+            // });
+            // //添加监听事件 当标记被点击了  设置图层
+            // qq.maps.event.addListener(marker, 'click', function() {
+            //     info.open();
+            //     info.setContent('<div style="width:280px;height:100px;">'+
+            //         result.detail.address+'</div>');
+            //     info.setPosition(result.detail.location);
+            // });
         }
     });
 
@@ -79,10 +84,6 @@ function showPosition(position) {
 
 	    codeLatLng(lat,lng);
 	});
-
-	
-
-	
 }
 
 function codeLatLng(lat,lng) {
@@ -100,7 +101,7 @@ function codeLatLng(lat,lng) {
 
 </head>
 <body onload="getLocation()">
-<p>用html5定位后，使用腾讯地图坐标转换接口纠偏，请允许获取位置。</p>
+<p>定位中</p>
 <div id="container"></div>
 
 </body>

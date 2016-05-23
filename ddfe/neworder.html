@@ -9,9 +9,10 @@
     <link rel="stylesheet" type="text/css" href="PublicCSS/bootstrap-theme.min.css">
     <script src="PublicJs/jquery.js"></script>
     <script src="PublicJs/http.js"></script>
+    <script src="PublicJs/base64jquery.js"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
-<body>
+<body style="margin:5px">
 <div id="state"></div>
 <div id="error"></div>
 <button type="button" class="btn btn-lg btn-default btn-block" onclick="phonephoto()" >选择或者拍摄照片</button>
@@ -19,67 +20,17 @@
 <br>
 <h4>问题描述:</h4>
 <textarea id="question_content" class="form-control" style="margin-bottom:10px;" rows="3"></textarea>
-
-<button type="button" class="btn btn-lg btn-success btn-block"  onclick="uploadImg()" >上传照片</button>
+<h4>
+    <span id="place" class="label label-warning"></span>
+</h4>
+<!-- <button type="button" class="btn btn-lg btn-success btn-block"  onclick="uploadImg()" >上传照片</button> -->
+<button type="button" class="btn btn-lg btn-success btn-block" onclick="commitQuestions()" >提交工单</button>
 <script>
 // 记住js安全域名不要加http://
 var requestfront = "../ddbe/api.php?";
-// 回调
-var callback = {
-    // 取用户信息
-    finishconfig : function(mydata) {
-        // alert(mydata);
 
-        signData = {
-            "verifyAppId" : mydata.myappid,
-            "verifyTimestamp" : mydata.mytemestamp,  // 签名的时间戳
-            "verifySignType" : "sha1",
-            "verifyNonceStr" : mydata.mynoncestr,  //签名字符串
-            "verifySignature" : mydata.mysignature
-        };
-
-        // 配置信息
-        wx.config({
-            beta: true, // 开启内测接口调用
-            debug: true,
-            appId: mydata.myappid,
-            timestamp: mydata.mytemestamp,
-            nonceStr: mydata.mynoncestr,
-            signature: mydata.mysignature,
-            jsApiList: [
-                'chooseImage',
-                'uploadImage',
-                'previewImage',
-                'downloadImage',
-            ]
-        });
-
-        wx.checkJsApi({
-            jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-            success: function(res) {
-                // 以键值对的形式返回，可用的api值true，不可用为false
-                // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-            }
-        });
-
-        wx.ready(function(){
-            // alert("ok");
-        });
-
-        wx.error(function(res){
-            alert("error" + res);
-        });
-    },
-    finishdownload : function(result) { // 下载回调
-        // alert(result.errorcode);
-        if (result.errorcode > 0) {
-            $("#state").html(result.filename + "下载到服务器成功");
-        };
-    },
-    finishlocation : function(result) { // 位置回调
-        alert(result.x);
-    },
-};
+var x,y,place; // 位置 
+var selectlocalIds; // 上传图片的 JSON.stringify();
 
 // html show ready
 $(document).ready(function() {
@@ -90,14 +41,31 @@ $(document).ready(function() {
     };
     http_method.ajaxmethod(requrl,data,"POST","json",callback.finishconfig);
 
-    getlocation();
+    // getlocation();
+    var localArr = getElement();
+    console.log(localArr);
+
+    place = decodeURI(localArr[0]); // UTF-8
+    x = localArr[0];
+    y = localArr[0];
+
+    $("#place").html(place);
 });
 
-var selectlocalIds; // 上传图片的
+// function getlocation() {
+//     var requrl = requestfront + "action=location";
+//     http_method.ajaxmethod(requrl,null,"GET","json",callback.finishlocation);
+// }
 
-function getlocation() {
-    var requrl = requestfront + "action=location";
-    http_method.ajaxmethod(requrl,null,"GET","json",callback.finishlocation);
+// 提交工单
+function commitQuestions() {
+    //wx_questions_id 在php服务端用time()获取
+    var wx_questions_content = $("#question_content").val();
+    var wx_questions_place = place;
+    var wx_questions_point = x + "," + y;
+    var wx_img_url_data = JSON.stringify(selectlocalIds);
+    console.log(wx_img_url_data);
+    alert(wx_img_url_data);
 }
 
 // 选择或者拍摄图片
@@ -161,6 +129,63 @@ function uploadImg() {
         });
     }
 }
+
+// 回调
+var callback = {
+    // 取用户信息
+    finishconfig : function(mydata) {
+        // alert(mydata);
+
+        signData = {
+            "verifyAppId" : mydata.myappid,
+            "verifyTimestamp" : mydata.mytemestamp,  // 签名的时间戳
+            "verifySignType" : "sha1",
+            "verifyNonceStr" : mydata.mynoncestr,  //签名字符串
+            "verifySignature" : mydata.mysignature
+        };
+
+        // 配置信息
+        wx.config({
+            beta: true, // 开启内测接口调用
+            debug: true,
+            appId: mydata.myappid,
+            timestamp: mydata.mytemestamp,
+            nonceStr: mydata.mynoncestr,
+            signature: mydata.mysignature,
+            jsApiList: [
+                'chooseImage',
+                'uploadImage',
+                'previewImage',
+                'downloadImage',
+            ]
+        });
+
+        wx.checkJsApi({
+            jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+            success: function(res) {
+                // 以键值对的形式返回，可用的api值true，不可用为false
+                // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+            }
+        });
+
+        wx.ready(function(){
+            // alert("ok");
+        });
+
+        wx.error(function(res){
+            alert("error" + res);
+        });
+    },
+    finishdownload : function(result) { // 下载回调
+        // alert(result.errorcode);
+        if (result.errorcode > 0) {
+            $("#state").html(result.filename + "下载到服务器成功");
+        };
+    },
+    finishlocation : function(result) { // 位置回调
+        // alert(result.x);
+    },
+};
 
 </script>
 
