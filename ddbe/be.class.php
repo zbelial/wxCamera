@@ -89,13 +89,13 @@ class be extends \db
 
         $url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=$serverId";
         $path = 'ddstorage/';
-        $filename = $path.time().'.jpg';
+        $filename = time().'.jpg';
 
         $res = $this->GrabImage($url,$filename,$path);
 
         return array(
             'errorcode' => $res, 
-            'filename' => $filename 
+            'filename' => $path.time().'.jpg' 
         );
     }
 
