@@ -88,7 +88,7 @@ function commitQuestions() {
         wx_img_url_data : wx_img_url_data,
     };
 
-    http_method.ajaxmethod(requrl,data,"POST","json",callback.finishcommit);
+    http_method.ajaxmethod(requrl,data,"POST","text",callback.finishcommit);
 }
 
 // 选择或者拍摄图片
@@ -139,8 +139,11 @@ function uploadImg() {
                     $("#state").html("上传成功");
 
                     if (i == (selectlocalIds.length - 1)) {
+                        alert("finish");
                         commitQuestions();
-                    };
+                    } else {
+                        alert("a");
+                    }
 
                     // var downurl = requestfront + "action=downloadimg";
                     // var data = {
@@ -220,7 +223,7 @@ var callback = {
         // alert(result.x);
     },
     finishcommit : function(result) {
-        alert(result.errorcode);
+        alert(result);
         // console.log(result);
     },
 };
