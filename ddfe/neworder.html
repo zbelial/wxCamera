@@ -24,7 +24,7 @@
     <span id="place" class="label label-warning"></span>
 </h4>
 <!-- <button type="button" class="btn btn-lg btn-success btn-block"  onclick="uploadImg()" >上传照片</button> -->
-<button type="button" class="btn btn-lg btn-success btn-block" onclick="commitQuestions()" >提交工单</button>
+<button type="button" class="btn btn-lg btn-success btn-block" onclick="uploadImg()" >提交工单</button>
 <script>
 // 记住js安全域名不要加http://
 var requestfront = "../ddbe/api.php?";
@@ -60,12 +60,14 @@ $(document).ready(function() {
 
 // 提交工单
 function commitQuestions() {
-    var upres = uploadImg(); // 先把图片素材上传到服务器端
+    // var upres = uploadImg(); // 先把图片素材上传到服务器端
 
-    if (upres == false) {
-        alert("上传出错");
-        return false;
-    };
+    // if (upres == false) {
+    //     alert("上传出错");
+    //     return false;
+    // } else {
+
+    // }
 
     //wx_questions_id 在php服务端用time()获取
     var wx_questions_content = $("#question_content").val();
@@ -154,6 +156,8 @@ function uploadImg() {
             }
         });
     }
+
+    commitQuestions();
 
     return true;
 }
