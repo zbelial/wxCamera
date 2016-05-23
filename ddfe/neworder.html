@@ -59,12 +59,12 @@ $(document).ready(function() {
 
 // 提交工单
 function commitQuestions() {
-    // var upres = uploadImg(); // 先把图片素材上传到服务器端
+    var upres = uploadImg(); // 先把图片素材上传到服务器端
 
-    // if (upres == false) {
-    //     alert("上传出错");
-    //     return false;
-    // };
+    if (upres == false) {
+        alert("上传出错");
+        return false;
+    };
 
     //wx_questions_id 在php服务端用time()获取
     var wx_questions_content = $("#question_content").val();
