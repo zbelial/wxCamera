@@ -28,7 +28,7 @@
 			var mk = new BMap.Marker(r.point);
 			map.addOverlay(mk);
 			map.panTo(r.point);
-			// alert('您的位置：'+r.point.lng+','+r.point.lat);
+			alert('您的位置：'+r.point.lng+','+r.point.lat);
 
 			var x = r.point.lng;
 			var y = r.point.lat;
@@ -36,7 +36,7 @@
 
 			geoc.getLocation(pt, function(rs){
 				var addComp = rs.addressComponents;
-				// alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+				alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
 				window.location.href = "neworder.html?place=" + addComp.province + addComp.city +addComp.district + addComp.street + addComp.streetNumber + "&x=" + x + "&y=" + y;
 			}); 
 		}
