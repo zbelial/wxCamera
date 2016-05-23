@@ -30,7 +30,8 @@
 var requestfront = "../ddbe/api.php?";
 
 var x,y,place; // 位置 
-var selectlocalIds; // 上传图片的 JSON.stringify();
+var selectlocalIds; // 图片本地
+var selectServerIds = []; // 上传图片的 JSON.stringify();
 
 // html show ready
 $(document).ready(function() {
@@ -70,7 +71,7 @@ function commitQuestions() {
     var wx_questions_content = $("#question_content").val();
     var wx_questions_place = place;
     var wx_questions_point = x + "," + y;
-    var wx_img_url_data = JSON.stringify(selectlocalIds); // 图片serverId数组
+    var wx_img_url_data = JSON.stringify(selectServerIds); // 图片serverId数组
     // var test = ["a","b"];
     // var wx_img_url_data = JSON.stringify(test); // 图片serverId数组
 
@@ -130,6 +131,7 @@ function uploadImg() {
                 var errMsg = res.errMsg;
 
                 if(errMsg == 'uploadImage:ok') {
+                    selectServerIds[i] = serverId;
                     $("#state").addClass('alert alert-success');
                     $("#state").html("上传成功");
 
