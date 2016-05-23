@@ -132,6 +132,7 @@ function uploadImg() {
 
                 if(errMsg == 'uploadImage:ok') {
                     selectServerIds[i] = serverId;
+                    alert('第'+i+'个'+selectServerIds[i]);
                     $("#state").addClass('alert alert-success');
                     $("#state").html("上传成功");
 
