@@ -87,11 +87,11 @@ class be extends \db
         $access_token = $this->getAccessToken();
         //http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID
 
-        $url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=$serverId";
+        $url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=serverId";
 
         $isActokenInvalid = file_get_contents($url);
         $isActokenInvalidjson = json_decode($isActokenInvalid);
-        
+
         if($isActokenInvalidjson->{'errcode'} == '40001') {
             $access_token = $this->newAccesstoken();
         }
