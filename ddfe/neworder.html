@@ -16,6 +16,10 @@
 <div id="error"></div>
 <button type="button" class="btn btn-lg btn-default btn-block" onclick="phonephoto()" >选择或者拍摄照片</button>
 
+<br>
+<h4>问题描述:</h4>
+<textarea id="question_content" class="form-control" style="margin-bottom:10px;" rows="3"></textarea>
+
 <button type="button" class="btn btn-lg btn-success btn-block"  onclick="uploadImg()" >上传照片</button>
 <script>
 // 记住js安全域名不要加http://
@@ -86,6 +90,7 @@ $(document).ready(function() {
 
 var selectlocalIds; // 上传图片的
 
+// 选择或者拍摄图片
 function phonephoto() {
     wx.chooseImage({
         count: 1, // 默认9
@@ -104,6 +109,7 @@ function phonephoto() {
                     "<img class=\"img-thumbnail\" width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[i] + "\">";
                 }
 
+                $("#state").addClass('alert alert-success');
                 $("#state").html("选择成功" + content);
             } else {
                 alert("上传失败");
