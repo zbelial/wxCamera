@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>我提交的工单</title>
+	<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="PublicCSS/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="PublicCSS/bootstrap-theme.min.css">
+    <script src="PublicJs/jquery.js"></script>
+    <script src="PublicJs/http.js"></script>
+    <script src="PublicJs/base64jquery.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<body>
+	<div class="list-group">
+		<a href="javascript:mylist.unsolvelist()" class="list-group-item active">
+		  未处理工单
+		</a>
+		<div id="unsolvediv"></div>
+		
+		<a href="javascript:mylist.solvedlist()" class="list-group-item active">
+		  已处理工单
+		</a>
+		<div id="solveddiv"></div>
+	</div>
+
+<script>
+$(document).ready(function(){
+	mylist.unsolvelist();
+	mylist.solvedlist();
+});
+
+var requestfront = "../ddbe/api.php?";
+
+var mylist = {
+	solvedlist : function() { // 已经处理的工单
+		var resqurl = requestfront + "action=solvedlist";
+		http_method.ajaxmethod(resqurl,null,"GET","json",callback.finishgetsolved);
+	},
+	unsolvelist : function() { // 未处理的工单
+		var resqurl = requestfront + "action=unsolvelist";
+		http_method.ajaxmethod(resqurl,null,"GET","json",callback.finishgetunsolve);
+	},
+};
+
+// 回调
+var callback = {
+	finishgetsolved : function(result) {
+		var content = "";//<a href="javascript:mylist.unsolvelist()" class="list-group-item">
+		var resarr = result.resp;
+
+		for (var i = 0; i < resarr.length; i++) {
+			content += '<a href="" class="list-group-item"><h4 class="list-group-item-heading">'
+			+ resarr[i].wx_questions_content.substr(0,10) 
+			+ '...</h4>'
+			+ '<p>'
+			+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1);
+			+ '</p>'
+			+ '</a>';
+		};
+
+		$("#solveddiv").html(content);
+
+	},
+	finishgetunsolve : function(result) {
+		var content = "";//<a href="javascript:mylist.unsolvelist()" class="list-group-item">
+		var resarr = result.resp;
+
+		for (var i = 0; i < resarr.length; i++) {
+			content += '<a href="" class="list-group-item"><h4 class="list-group-item-heading">'
+			+ resarr[i].wx_questions_content.substr(0,10) 
+			+ '...</h4>'
+			+ '<p>'
+			+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1);
+			+ '</p>'
+			+ '</a>';
+		};
+
+		$("#unsolvediv").html(content);
+	},
+};
+
+
+</script>
+</body>
+</html>
