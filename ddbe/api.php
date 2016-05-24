@@ -113,6 +113,7 @@ switch ($action) {
 		break;
 
 	case 'unsolvelist':
+		session_start();
 		if (!$_SESSION['openid']) {
 			exit();
 		}
@@ -121,6 +122,7 @@ switch ($action) {
 		break;
 
 	case 'solvedlist':
+		session_start();	
 		if (!$_SESSION['openid']) {
 			exit();
 		}
@@ -129,6 +131,7 @@ switch ($action) {
 		break;
 
 	case 'quesdesc':
+		session_start();
 		if (!$_SESSION['openid']) {
 			exit();
 		}
