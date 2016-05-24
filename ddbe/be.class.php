@@ -316,6 +316,10 @@ class be extends \db
         return $response;
     } 
 
+    public function test() {
+        echo "test";
+    }
+
 }
 
 
