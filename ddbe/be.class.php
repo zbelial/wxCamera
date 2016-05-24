@@ -55,6 +55,8 @@ class be extends \db
 
     // 客户查看自己提交的工单
     public function clientGetList($state) {
+        session_start();
+        $openid = $_SESSION['openid'];
         $questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_openid='$openid' and wx_questions_state = '$state'")->search_command();
 
         return $questions;
