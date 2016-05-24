@@ -115,14 +115,14 @@ switch ($action) {
 	case 'unsolvelist':
 		session_start();
 		$openid = $_SESSION['openid'];
-		$questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_openid='$openid' and wx_questions_state = '0'")->search_command();
+		$questions = $this->clientGetList('0');
 		echo json_encode(array('resp' => $questions));
 		break;
 
 	case 'solvedlist':
 		session_start();
 		$openid = $_SESSION['openid'];
-		$questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_openid='$openid' and wx_questions_state = '1'")->search_command();
+		$questions = $this->clientGetList('1');
 		echo json_encode(array('resp' => $questions));
 		break;
 

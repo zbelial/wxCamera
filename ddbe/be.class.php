@@ -53,6 +53,14 @@ class be extends \db
         return $Accesstoken;
     }
 
+    // 客户查看自己提交的工单
+    public function clientGetList($state) {
+        $questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_openid='$openid' and wx_questions_state = '$state'")->search_command();
+
+        return $questions;
+
+    }
+
     // 上传工单问题
     public function commmitQuestion($openid,$wx_questions_content,$wx_questions_place,$wx_questions_point,$wx_questions_id,$imgUrlArray) {
         // 使用事务提交
