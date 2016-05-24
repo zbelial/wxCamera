@@ -94,7 +94,7 @@ class be extends \db
     public function clientGetList($state) {
         session_start();
         $openid = $_SESSION['openid'];
-        $questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_openid='$openid' and wx_questions_state = '$state'")->search_command();
+        $questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_openid='$openid' and wx_questions_state = '$state'")->select_other("ORDER BY wx_questions_id DESC")->search_command();
 
         return $questions;
     }
