@@ -106,11 +106,8 @@ class be extends \db
 
         $imgs = $this->select_Tab('wx_img')->select_Obj('*')->select_Where("wx_questions_id='$wx_questions_id'")->search_command();
 
-        $replys = null;
-        if ($state == '1') {
-            //wx_reply
-            $replys = $this->select_Tab('wx_reply')->select_Obj('*')->select_Where("wx_questions_id='$wx_questions_id'")->search_command();
-        }
+
+        $replys = $this->select_Tab('wx_reply')->select_Obj('*')->select_Where("wx_questions_id='$wx_questions_id'")->search_command();
 
         return array(
             'wx_questions' => $questions[0],
