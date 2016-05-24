@@ -23,6 +23,34 @@ class admin extends \db
         return self::$_instance;
     }
 
+    public function admin_getlist() {
+        $state = $_POST['state'];
+
+        $questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_state = '$state'")->select_other("ORDER BY wx_questions_id DESC")->search_command();
+
+        return $questions;
+    }
+
+    public function admin_getdesc($wx_questions_id) {
+
+        $questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_id='$wx_questions_id'")->search_command(); // [0]
+
+        $imgs = $this->select_Tab('wx_img')->select_Obj('*')->select_Where("wx_questions_id='$wx_questions_id'")->search_command();
+
+        $replys = null;
+        if ($state == '1') {
+            //wx_reply
+            $replys = $this->select_Tab('wx_reply')->select_Obj('*')->select_Where("wx_questions_id='$wx_questions_id'")->search_command();
+        }
+
+        return array(
+            'wx_questions' => $questions[0],
+            'wx_img' => $imgs,
+            'wx_reply' => $replys,
+            );
+
+    }
+
     // Denglu
     public function admin_login() {
         $wx_admin_token = $this->admin_protoken();

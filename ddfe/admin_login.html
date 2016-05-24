@@ -22,7 +22,7 @@
     <!-- 内容输出 -->
     <div class="container" id="output"></div>
 
-    <button onclick="user.vertify()">test</button>
+    <!-- <button onclick="user.vertify()">test</button> -->
 <script>
 var requestfront_admin = "../ddbe/api.admin.php?";
 var requestfront_be = "../ddbe/api.php?";
@@ -51,13 +51,20 @@ var user = {
 	}
 };
 
+var questions = {
+	getunsolvelist : function() {
+		var resqurl = requestfront_admin + "action=admin_getlist";
+		http_method.ajaxmethod(resqurl,null,"GET","json",callback.finishgetunsolvelist);
+	},
+};
+
 var callback = {
 	finishvertify : function(result) {
 		console.log(result);
-		if (result.resp == 'false' || result.resp == false ) {
-			alert("请登录");
-		} else {
+		if (result.resp == 'true' || result.resp == true ) {
 			$("#loginDiv").hide();
+		} else {
+			$("#loginDiv").show();
 		}
 	},
 	finishlogin : function(result) {
@@ -66,6 +73,29 @@ var callback = {
 		} else {
 			$("#loginDiv").hide();
 		}
+	},
+	finishgetunsolvelist : function(result) {
+		/*
+		<div class="jumbotron">
+			<h1>Theme example</h1>
+			<p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+		</div>
+		*/
+
+		var content = "";
+		for(var object in result.resp){
+			content += '<div class="jumbotron">'
+			+ '<h1>' + result.resp[object].wx_questions_content.substr(0,10) + '</h1>'
+			+ '<p>'
+			+ result.resp[object].wx_questions_content
+			+ '<hr>'
+			+ Trans_php_time_to_str(result.resp[object].wx_questions_id,1);
+			+ '<br>' + result.resp[object].wx_questions_place
+			+ '</p>'
+			+ '</div><br>';
+		}
+
+		$("#output").html(content);
 	},
 };
 
