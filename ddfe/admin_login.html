@@ -91,11 +91,11 @@ var callback = {
 
 		var content = "";
 		for(var object in result.resp){
-			content += '<div class="jumbotron" style="margin-bottom:20px">'
+			content += '<div style="margin-bottom:20px">'
 			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) + '</h3>'
-			+ '<p>'
+			+ '<p><blockquote>'
 			+ result.resp[object].wx_questions_content
-			+ '<hr>'
+			+ '<hr></blockquote>'
 			+ Trans_php_time_to_str(result.resp[object].wx_questions_id,1);
 			+ '<br>' + result.resp[object].wx_questions_place
 			+ '</p>'
