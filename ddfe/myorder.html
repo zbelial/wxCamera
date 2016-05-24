@@ -49,34 +49,48 @@ var callback = {
 		var content = "";//<a href="javascript:mylist.unsolvelist()" class="list-group-item">
 		var resarr = result.resp;
 
-		for (var i = 0; i < resarr.length; i++) {
-			content += '<a href="" class="list-group-item"><h4 class="list-group-item-heading">'
-			+ resarr[i].wx_questions_content.substr(0,10) 
-			+ '...</h4>'
-			+ '<p>'
-			+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1);
-			+ '</p>'
-			+ '</a>';
-		};
+		if (resarr.length > 0) {
+			for (var i = 0; i < resarr.length; i++) {
+				content += '<a href="" class="list-group-item"><h4 class="list-group-item-heading">'
+				+ resarr[i].wx_questions_content.substr(0,10) 
+				+ '...</h4>'
+				+ '<p>'
+				+ '地点:' + resarr[i].wx_questions_place
+				+ '</p>'
+				+ '<p>'
+				+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1);
+				+ '</p>'
+				+ '</a>';
+			};
 
-		$("#solveddiv").html(content);
+			$("#solveddiv").html(content);
+		} else {
+			$("#solveddiv").html("无");
+		}
 
 	},
 	finishgetunsolve : function(result) {
 		var content = "";//<a href="javascript:mylist.unsolvelist()" class="list-group-item">
 		var resarr = result.resp;
+		if (resarr.length > 0) {
+			for (var i = 0; i < resarr.length; i++) {
+				content += '<a href="" class="list-group-item"><h4 class="list-group-item-heading">'
+				+ resarr[i].wx_questions_content.substr(0,10) 
+				+ '...</h4>'
+				+ '<p>'
+				+ '地点:' + resarr[i].wx_questions_place
+				+ '</p>'
+				+ '<p>'
+				+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1);
+				+ '</p>'
+				+ '</a>';
+			};
 
-		for (var i = 0; i < resarr.length; i++) {
-			content += '<a href="" class="list-group-item"><h4 class="list-group-item-heading">'
-			+ resarr[i].wx_questions_content.substr(0,10) 
-			+ '...</h4>'
-			+ '<p>'
-			+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1);
-			+ '</p>'
-			+ '</a>';
-		};
+			$("#unsolvediv").html(content);
+		} else {
+			$("#unsolvediv").html("无");
+		}
 
-		$("#unsolvediv").html(content);
 	},
 };
 
