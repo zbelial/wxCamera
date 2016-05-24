@@ -53,6 +53,7 @@ var user = {
 
 var callback = {
 	finishvertify : function(result) {
+		console.log(result);
 		if (result.resp == 'false' || result.resp == false ) {
 			alert("请登录");
 		} else {

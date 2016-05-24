@@ -59,7 +59,7 @@ class admin extends \db
     // 验证token
     public function admin_vertifytoken() {
         if (!$_COOKIE['token']) {
-            return false;
+            return 'null';
         }
 
         $token = $_COOKIE['token'];
