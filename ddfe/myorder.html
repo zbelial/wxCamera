@@ -41,6 +41,14 @@ var mylist = {
 		var resqurl = requestfront + "action=unsolvelist";
 		http_method.ajaxmethod(resqurl,null,"GET","json",callback.finishgetunsolve);
 	},
+	quesdesc : function(wx_questions_id) { 
+		// 解决问题描述
+		var resqurl = requestfront + "action=quesdesc";
+		data = {
+			wx_questions_id : wx_questions_id,
+		};
+		http_method.ajaxmethod(resqurl,data,"POST","json",callback.finishgetdesc);
+	}
 };
 
 // 回调
@@ -51,13 +59,14 @@ var callback = {
 
 		if (resarr.length > 0) {
 			for (var i = 0; i < resarr.length; i++) {
-				content += '<a href="" class="list-group-item"><h4 class="list-group-item-heading">'
+				content += '<a href="desc_order.html?wx_questions_id=' 
+				+ resarr[i].wx_questions_id
+				+ 'class="list-group-item"><h4 class="list-group-item-heading">'
 				+ resarr[i].wx_questions_content.substr(0,10) 
 				+ '...</h4>'
 				+ '<p>'
 				+ '地点:' + resarr[i].wx_questions_place
-				+ '</p>'
-				+ '<p>'
+				+ '<br>'
 				+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1);
 				+ '</p>'
 				+ '</a>';
@@ -74,13 +83,14 @@ var callback = {
 		var resarr = result.resp;
 		if (resarr.length > 0) {
 			for (var i = 0; i < resarr.length; i++) {
-				content += '<a href="" class="list-group-item"><h4 class="list-group-item-heading">'
+				content += '<a href="desc_order.html?wx_questions_id=' 
+				+ resarr[i].wx_questions_id
+				+ 'class="list-group-item"><h4 class="list-group-item-heading">'
 				+ resarr[i].wx_questions_content.substr(0,10) 
 				+ '...</h4>'
 				+ '<p>'
 				+ '地点:' + resarr[i].wx_questions_place
-				+ '</p>'
-				+ '<p>'
+				+ '<br>'
 				+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1);
 				+ '</p>'
 				+ '</a>';
@@ -90,6 +100,9 @@ var callback = {
 		} else {
 			$("#unsolvediv").html("无");
 		}
+
+	},
+	finishgetdesc : function(result) {
 
 	},
 };

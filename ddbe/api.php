@@ -122,6 +122,13 @@ switch ($action) {
 		echo json_encode(array('resp' => $questions));
 		break;
 
+	case 'quesdesc':
+		$wx_questions_id = $_POST['wx_questions_id'];
+		$result = $be->clientGetDesc($wx_questions_id);
+
+		echo json_encode(array('resp' => $result));
+		break;
+
 	default:
 		break;
 }

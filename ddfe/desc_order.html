@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>详情描述</title>
+	<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="PublicCSS/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="PublicCSS/bootstrap-theme.min.css">
+    <script src="PublicJs/jquery.js"></script>
+    <script src="PublicJs/http.js"></script>
+    <script src="PublicJs/base64jquery.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+<body>
+	<div id="imgdiv"></div>
+	<div id="quesdiv"></div>
+	<div id="replydiv"></div>
+
+<script>
+var getVariableArr = getElement(); // 取get参数
+var wx_questions_id = getVariableArr[0];
+var requestfront = "../ddbe/api.php?";
+
+$(document).ready(function(){
+	mylist.quesdesc();
+});
+
+var mylist = {
+	quesdesc : function() { 
+		// 解决问题描述
+		var resqurl = requestfront + "action=quesdesc";
+		data = {
+			wx_questions_id : wx_questions_id,
+		};
+		http_method.ajaxmethod(resqurl,data,"POST","json",callback.finishgetdesc);
+	},
+};
+
+// 回调
+var callback = {
+	finishgetdesc : function(result) {
+		var resp = result.resp;
+		var question = resp.wx_questions;
+		var imgarr = resp.wx_img;
+		var replyarr = resp.wx_reply;
+
+		var imgcontent = "";
+		for(var imginfo in imgarr) {
+			imgcontent += '<img width="60px" height="60px" src="' + imginfo.wx_img_url + '" />';
+		}
+
+		$("#imgdiv").html(imgcontent);
+	},
+};
+
+</script>
+</body>
+</html>
