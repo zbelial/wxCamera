@@ -69,7 +69,7 @@ class admin extends \db
         if ($tokenres[0]['count(*)'] > 0) {
             return true;
         }
-        return false;
+        return $_COOKIE['token'];
     }
 
     // 生成token
