@@ -67,6 +67,14 @@ var questions = {
 		}
 		http_method.ajaxmethod(resqurl,data,"POST","json",callback.finishgetunsolvelist);
 	},
+	getsolvedlist : function() {
+
+		var resqurl = requestfront_admin + "action=admin_getlist";
+		var data = {
+			state : '1',
+		}
+		http_method.ajaxmethod(resqurl,data,"POST","json",callback.finishgetsolvedlist);
+	},
 };
 
 var callback = {
@@ -75,7 +83,10 @@ var callback = {
 		if (result.resp == 'true' || result.resp == true ) {
 			questions.getunsolvelist();
 			// $("#loginDiv").hide();
-			$("#loginDiv").html("已经登陆");
+			$("#loginDiv").html(
+				"已经登陆<a href=\"javascript:getunsolvelist()\">未解决工单</a>"
+				+ "<a href=\"javascript:getsolvedlist()\">已解决工单</a>"
+			);
 		} else {
 			$("#loginDiv").show();
 		}
@@ -85,7 +96,10 @@ var callback = {
 			alert("用户名或者密码错误，请重新登陆");
 		} else {
 			// $("#loginDiv").hide();
-			$("#loginDiv").html("已经登陆");
+			$("#loginDiv").html(
+				"已经登陆<a href=\"javascript:getunsolvelist()\">未解决工单</a>"
+				+ "<a href=\"javascript:getsolvedlist()\">已解决工单</a>"
+			);
 			questions.getunsolvelist();
 		}
 	},
@@ -107,6 +121,36 @@ var callback = {
 			+ '<a href="admin_desc.html">'
 			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) 
 			+ '<span class="label label-warning" style="float:right">未解决工单</span>'
+			+ '...</h3>'
+			+ '<p><blockquote>'
+			+ result.resp[object].wx_questions_content
+			+ '</blockquote>时间:'
+			+ Trans_php_time_to_str(result.resp[object].wx_questions_id,1)
+			+ '<br>地点:' + result.resp[object].wx_questions_place
+			+ '</p></a>'
+			+ '</div><br><hr>';
+		}
+
+		$("#output").html(content);
+	},
+	finishgetsolvedlist : function(result) {
+		console.log(result);
+
+		var content = "";
+		for(var object in result.resp){
+			/*
+			wx_questions_content: "测试"
+			wx_questions_id: "1464074770"
+			wx_questions_openid: "oTELzt8u4p8NuvhQtZcPlZas5BTo"
+			wx_questions_place: "中国山西省晋中市太谷县"
+			wx_questions_point: ""
+			wx_questions_state: "0"
+			*/
+
+			content += '<div>'
+			+ '<a href="admin_desc.html">'
+			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) 
+			+ '<span class="label label-success" style="float:right">已解决工单</span>'
 			+ '...</h3>'
 			+ '<p><blockquote>'
 			+ result.resp[object].wx_questions_content
