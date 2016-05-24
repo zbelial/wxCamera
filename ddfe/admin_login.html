@@ -118,7 +118,7 @@ var callback = {
 			*/
 
 			content += '<div>'
-			+ '<a href="admin_desc.html">'
+			+ '<a href="admin_desc.html?wx_questions_id=' + result.resp[object].wx_questions_id + '">'
 			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) 
 			+ '<span class="label label-warning" style="float:right">未解决工单</span>'
 			+ '...</h3>'
@@ -148,7 +148,7 @@ var callback = {
 			*/
 
 			content += '<div>'
-			+ '<a href="admin_desc.html">'
+			+ '<a href="admin_desc.html?wx_questions_id=' + result.resp[object].wx_questions_id + '">'
 			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) 
 			+ '<span class="label label-success" style="float:right">已解决工单</span>'
 			+ '...</h3>'
