@@ -84,22 +84,25 @@ var callback = {
 	},
 	finishgetunsolvelist : function(result) {
 		console.log(result);
-		/*
-		<div class="jumbotron">
-			<h1>Theme example</h1>
-			<p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
-		</div>
-		*/
 
 		var content = "";
 		for(var object in result.resp){
+			/*
+			wx_questions_content: "测试"
+			wx_questions_id: "1464074770"
+			wx_questions_openid: "oTELzt8u4p8NuvhQtZcPlZas5BTo"
+			wx_questions_place: "中国山西省晋中市太谷县"
+			wx_questions_point: ""
+			wx_questions_state: "0"
+			*/
+
 			content += '<div style="margin-bottom:20px;background-color:#e9e9e9">'
 			+ '<a href="admin_desc.html">'
 			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) + '...</h3>'
 			+ '<p><blockquote>'
 			+ result.resp[object].wx_questions_content
 			+ '</blockquote>时间:'
-			+ Trans_php_time_to_str(result.resp[object].wx_questions_id,1);
+			+ Trans_php_time_to_str(result.resp[object].wx_questions_id,1)
 			+ '<br>地点:' + result.resp[object].wx_questions_place
 			+ '</p></a>'
 			+ '</div><br><hr>';
