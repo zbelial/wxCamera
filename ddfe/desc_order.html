@@ -12,7 +12,7 @@
     <script src="PublicJs/base64jquery.js"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
-<body>
+<body style="padding:8px">
 	<div id="imgdiv"></div>
 	<div id="quesdiv"></div>
 	<div id="replydiv"></div>
@@ -45,16 +45,58 @@ var callback = {
 		var imgarr = resp.wx_img;
 		var replyarr = resp.wx_reply;
 
-		var imgcontent = "";
+		// 图片
+		var imgContent = "";
 		for(var key in imgarr) {
-			imgcontent += '<img width="60px" height="60px" src="' + imgarr[key].wx_img_url + '" />';
-			alert(imgarr[key].wx_img_url);
+			imgContent += '<img class="img-thumbnail" width="150px" height="150px" src="' + imgarr[key].wx_img_url + '" />';
+			alert("DEBUG:" + imgarr[key].wx_img_url);
 		}
+		$("#imgdiv").html(imgContent);
 
-		$("#imgdiv").html(imgcontent);
+		//<blockquote> 问题描述
+		var quesContent += '<p><blockquote>'
+		+ question.wx_questions_content
+		+ '</blockquote>'
+		+ '时间:' + Trans_php_time_to_str(question.wx_questions_id,1);
+		+ '<br>地点:' +  question.wx_questions_place
+		+ '</p>';
+		$("#quesdiv").html(quesContent);
+
+		// 回复
+		/*
+		<div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+		*/
+		var replyContent = "";
+		for(var key in replyarr) {
+			replyContent += '<div class="panel panel-primary">'
+	            +'<div class="panel-heading">'
+	            +  '<h3 class="panel-title">回复日期'
+	            +  Trans_php_time_to_str(replyarr[key].wx_reply_id,1)
+	            +  '</h3>'
+	            +'</div>'
+	            +'<div class="panel-body">'
+	            +  replyarr[key].wx_reply_content
+	            +'</div>'
+            +'</div>';
+		}
+		$("#replydiv").html(replyContent);
+		
 	},
 };
 
 </script>
 </body>
 </html>
+
+
+
+
+
+
