@@ -84,8 +84,8 @@ var callback = {
 			questions.getunsolvelist();
 			// $("#loginDiv").hide();
 			$("#loginDiv").html(
-				"已经登陆<a href=\"javascript:getunsolvelist()\">未解决工单</a>"
-				+ "<a href=\"javascript:getsolvedlist()\">已解决工单</a>"
+				"已经登陆<a href=\"javascript:questions.getunsolvelist()\">未解决工单</a> / "
+				+ "<a href=\"javascript:questions.getsolvedlist()\">已解决工单</a>"
 			);
 		} else {
 			$("#loginDiv").show();
@@ -97,7 +97,7 @@ var callback = {
 		} else {
 			// $("#loginDiv").hide();
 			$("#loginDiv").html(
-				"已经登陆<a href=\"javascript:questions.getunsolvelist()\">未解决工单</a>"
+				"已经登陆<a href=\"javascript:questions.getunsolvelist()\">未解决工单</a> / "
 				+ "<a href=\"javascript:questions.getsolvedlist()\">已解决工单</a>"
 			);
 			questions.getunsolvelist();
