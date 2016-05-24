@@ -8,6 +8,8 @@ include(CONF_PATH.'/wxconfig.php');
 
 define('GET_ACCESSTOKEN_URL', 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&'); 
 define('ACTOKEN', 'access_token');
+define('ACTOKEN_JSON','accesstoken.json');
+define('ACTOKEN_JSON_PATH', CONF_PATH.'/'.ACTOKEN_JSON);
 
 class be extends \db
 {
@@ -27,14 +29,28 @@ class be extends \db
         return self::$_instance;
     }
 
-
-    // 获取普通的accesstoken
     public function getAccessToken() {
-        if ($_COOKIE[ACTOKEN] || isset($_COOKIE[ACTOKEN])) {
-            return $_COOKIE[ACTOKEN];
+        // $tokenJson = json_decode($this->requestWithGet(ACCESSTOKEN_URL));
+        // return $tokenJson->{'accessToken'};
+        //STOR_PATH
+
+        $tokenJson = file_get_contents(ACTOKEN_JSON_PATH);
+        $tokendata = json_decode($tokenJson);
+
+        $now_get_time = time();
+        $destory_time = $tokendata->{'destory_time'};
+        $expires_in = $tokendata->{'expires_in'};
+
+        // 没有过期
+        if ((($destory_time - $now_get_time) < $expires_in) && (($destory_time - $now_get_time) > 0)) {
+
+            return $tokendata->{'access_token'};
+            // return $this->newAccesstoken();
         } else {
+            // echo "过期了";
             return $this->newAccesstoken();
         }
+
     }
 
     // 获取新的accesstoken;
@@ -47,10 +63,31 @@ class be extends \db
         $Accesstoken = $AccessTokenResult->{'access_token'};
         $expires_in = $AccessTokenResult->{'expires_in'}; // 有效时间
 
-        // access_token存入Cookie
-        setcookie(ACTOKEN, $Accesstoken,time()+$expires_in);
+        $nowtime = time();
+        $destory_time = $nowtime + $expires_in; // 过期时间
+
+        $respArr = array('access_token' => $Accesstoken, 'destory_time' => $destory_time, 'expires_in' => $expires_in);
+
+        $this->write_to_actoken_json($respArr);
 
         return $Accesstoken;
+    }
+
+    // 写入记录accesstoken
+    private function write_to_actoken_json($dataArray) {
+        $path = ACTOKEN_JSON_PATH;
+        $json = json_encode($dataArray);
+
+        $myfile = fopen($path, "w+") or die("Unable to open file!");
+
+        // $content = "新建:";
+        // // 输出单行直到 end-of-file
+        // while(!feof($myfile)) {
+        //   $content += fgets($myfile);
+        // }
+
+        $fwrite = fwrite($myfile, $json);
+        fclose($myfile);
     }
 
     // 客户查看自己提交的工单
