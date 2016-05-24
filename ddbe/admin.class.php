@@ -35,7 +35,8 @@ class admin extends \db
         return $questions;
     }
 
-    public function admin_getdesc($wx_questions_id) {
+    public function admin_getdesc() {
+        $wx_questions_id = $_POST['wx_questions_id'];
 
         $questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_id='$wx_questions_id'")->search_command(); // [0]
 

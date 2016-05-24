@@ -10,7 +10,6 @@
     <script src="PublicJs/jquery.js"></script>
     <script src="PublicJs/http.js"></script>
     <script src="PublicJs/base64jquery.js"></script>
-    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body style="padding:8px">
 	<div id="imgdiv"></div>
@@ -20,7 +19,9 @@
 <script>
 var getVariableArr = getElement(); // 取get参数
 var wx_questions_id = getVariableArr[0];
-var requestfront = "../ddbe/api.php?";
+
+var requestfront_admin = "../ddbe/api.admin.php?";
+var requestfront_be = "../ddbe/api.php?";
 
 $(document).ready(function(){
 	mylist.quesdesc();
@@ -29,7 +30,7 @@ $(document).ready(function(){
 var mylist = {
 	quesdesc : function() { 
 		// 解决问题描述
-		var resqurl = requestfront + "action=quesdesc";
+		var resqurl = requestfront_admin + "action=admin_getdesc";
 		data = {
 			wx_questions_id : wx_questions_id,
 		};
