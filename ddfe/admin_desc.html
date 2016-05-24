@@ -12,9 +12,11 @@
     <script src="PublicJs/base64jquery.js"></script>
 </head>
 <body style="padding:8px">
-	<div id="imgdiv"></div>
-	<div id="quesdiv"></div>
-	<div id="replydiv"></div>
+	<div class="container" >
+		<div id="imgdiv"></div>
+		<div id="quesdiv"></div>
+		<div id="replydiv"></div>
+	</div>
 
 <script>
 var getVariableArr = getElement(); // 取get参数
@@ -49,8 +51,8 @@ var callback = {
 		// 图片
 		var imgContent = "";
 		for(var key in imgarr) {
-			imgContent += '<img class="img-thumbnail" width="150px" height="150px" src="' + imgarr[key].wx_img_url + '" />';
-			alert("DEBUG:" + imgarr[key].wx_img_url);
+			imgContent += '<img class="img-thumbnail" width="300px" height="300px" src="' + imgarr[key].wx_img_url + '" />';
+			// alert("DEBUG:" + imgarr[key].wx_img_url);
 		}
 		$("#imgdiv").html(imgContent);
 
@@ -58,7 +60,7 @@ var callback = {
 		var quesContent = '<p><blockquote>'
 		+ question.wx_questions_content
 		+ '</blockquote>'
-		+ '时间:' + Trans_php_time_to_str(question.wx_questions_id,1);
+		+ '时间:' + Trans_php_time_to_str(question.wx_questions_id,1)
 		+ '<br>地点:' +  question.wx_questions_place
 		+ '</p>';
 		$("#quesdiv").html(quesContent);
