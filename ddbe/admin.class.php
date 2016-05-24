@@ -24,6 +24,10 @@ class admin extends \db
     }
 
     public function admin_getlist() {
+        if (!$this->admin_vertifytoken()) {
+            return false;
+        }
+
         $state = $_POST['state'];
 
         $questions = $this->select_Tab('wx_questions')->select_Obj('*')->select_Where("wx_questions_state = '$state'")->select_other("ORDER BY wx_questions_id DESC")->search_command();

@@ -67,7 +67,8 @@ var callback = {
 		console.log(result);
 		if (result.resp == 'true' || result.resp == true ) {
 			questions.getunsolvelist();
-			$("#loginDiv").hide();
+			// $("#loginDiv").hide();
+			$("#loginDiv").html("已经登陆");
 		} else {
 			$("#loginDiv").show();
 		}
@@ -76,7 +77,8 @@ var callback = {
 		if (result.resp == 'false' || result.resp == false ) {
 			alert("用户名或者密码错误，请重新登陆");
 		} else {
-			$("#loginDiv").hide();
+			// $("#loginDiv").hide();
+			$("#loginDiv").html("已经登陆");
 			questions.getunsolvelist();
 		}
 	},
@@ -92,14 +94,15 @@ var callback = {
 		var content = "";
 		for(var object in result.resp){
 			content += '<div style="margin-bottom:20px">'
+			'<a href="admin_desc.html">'
 			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) + '</h3>'
 			+ '<p><blockquote>'
 			+ result.resp[object].wx_questions_content
-			+ '<hr></blockquote>'
+			+ '</blockquote>时间:'
 			+ Trans_php_time_to_str(result.resp[object].wx_questions_id,1);
-			+ '<br>' + result.resp[object].wx_questions_place
-			+ '</p>'
-			+ '</div><br>';
+			+ '<br>地点:' + result.resp[object].wx_questions_place
+			+ '</p></a>'
+			+ '</div><br><hr>';
 		}
 
 		$("#output").html(content);
