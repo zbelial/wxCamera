@@ -115,14 +115,14 @@ switch ($action) {
 	case 'unsolvelist':
 		session_start();
 		$openid = $_SESSION['openid'];
-		$questions = $this->clientGetList('0');
+		$questions = $be->clientGetList('0');
 		echo json_encode(array('resp' => $questions));
 		break;
 
 	case 'solvedlist':
 		session_start();
 		$openid = $_SESSION['openid'];
-		$questions = $this->clientGetList('1');
+		$questions = $be->clientGetList('1');
 		echo json_encode(array('resp' => $questions));
 		break;
 
