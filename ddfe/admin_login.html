@@ -94,7 +94,7 @@ var callback = {
 		var content = "";
 		for(var object in result.resp){
 			content += '<div style="margin-bottom:20px">'
-			'<a href="admin_desc.html">'
+			+ '<a href="admin_desc.html">'
 			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) + '</h3>'
 			+ '<p><blockquote>'
 			+ result.resp[object].wx_questions_content
