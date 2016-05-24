@@ -65,6 +65,7 @@ var mylist = {
 // 回调
 var callback = {
 	finishgetdesc : function(result) {
+		console.log(result);
 		var resp = result.resp;
 		var question = resp.wx_questions;
 		var imgarr = resp.wx_img;
