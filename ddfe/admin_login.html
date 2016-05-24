@@ -20,7 +20,14 @@
     </div>
 
     <!-- 内容输出 -->
-    <div class="container" id="output"></div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">工单列表</h3>
+        </div>
+    	<div class="panel-body">
+			<div class="container" id="output"></div>
+		</div>
+	</div>
 
     <!-- <button onclick="user.vertify()">test</button> -->
 <script>
@@ -96,9 +103,11 @@ var callback = {
 			wx_questions_state: "0"
 			*/
 
-			content += '<div style="margin-bottom:20px;">'
+			content += '<div>'
 			+ '<a href="admin_desc.html">'
-			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) + '...</h3>'
+			+ '<h3>' + result.resp[object].wx_questions_content.substr(0,10) 
+			+ '<font style="float:right" color="black">未解决工单</font>'
+			+ '...</h3>'
 			+ '<p><blockquote>'
 			+ result.resp[object].wx_questions_content
 			+ '</blockquote>时间:'
