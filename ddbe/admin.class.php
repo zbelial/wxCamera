@@ -56,6 +56,36 @@ class admin extends \db
 
     }
 
+    // 回复
+    public function admin_reply() {
+        $wx_questions_id = $_POST['wx_questions_id'];
+        $wx_reply_content = $_POST['wx_reply_content'];
+
+        // 使用事务提交
+        $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
+        $this->PDO_LINK->beginTransaction();
+
+        $data = array('wx_questions_state' => '1');
+        $update = $this->select_Tab('wx_questions')->select_Where("wx_questions_id='$wx_questions_id'")->update_new_command($data);
+
+        $wx_reply_id = time();
+
+        $insertArr = array();
+        array_push($insertArr,array($wx_reply_id,$wx_reply_content,$wx_questions_id));
+        
+        $ResReply = $this->select_Tab('wx_reply')->select_Obj('wx_reply_id,wx_reply_content,wx_questions_id')->insert_new_command($insertArr);
+
+        if ($update['pass'] == false || $ResReply['pass'] == false) {
+            // 如果某一步错误的话就回滚操作
+            $this->PDO_LINK->rollBack(); 
+            $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
+            return false;
+        }
+
+        $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
+        return true;
+    }
+
     // Denglu
     public function admin_login() {
         $wx_admin_token = $this->admin_protoken();
