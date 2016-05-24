@@ -48,6 +48,7 @@ var callback = {
 		var imgcontent = "";
 		for(var imginfo in imgarr) {
 			imgcontent += '<img width="60px" height="60px" src="' + imginfo.wx_img_url + '" />';
+			alert(imginfo.wx_img_url);
 		}
 
 		$("#imgdiv").html(imgcontent);
