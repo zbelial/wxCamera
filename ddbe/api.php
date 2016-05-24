@@ -113,16 +113,25 @@ switch ($action) {
 		break;
 
 	case 'unsolvelist':
+		if (!$_SESSION['openid']) {
+			exit();
+		}
 		$questions = $be->clientGetList('0');
 		echo json_encode(array('resp' => $questions));
 		break;
 
 	case 'solvedlist':
+		if (!$_SESSION['openid']) {
+			exit();
+		}
 		$questions = $be->clientGetList('1');
 		echo json_encode(array('resp' => $questions));
 		break;
 
 	case 'quesdesc':
+		if (!$_SESSION['openid']) {
+			exit();
+		}
 		$wx_questions_id = $_POST['wx_questions_id'];
 		$result = $be->clientGetDesc($wx_questions_id);
 

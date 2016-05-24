@@ -1,16 +1,17 @@
 <?php 
 // 包含一些公用方法
 namespace ddadmin;
-
 include('PathFile.php');
-include_once(BE_PATH.'/be.class.php');
+include('db.class.php');
+include(CONF_PATH.'/wxconfig.php');
 
-class admin extends \classes\be
+class admin extends \db
 {
     protected static $_instance = null;
 	
 	function __construct() {
-        parent::__construct();
+        $dbarr = include(CONF_PATH.'/dbconfig.php');
+        parent::__construct($dbarr['DBNAME'], $dbarr['DBHOST'], $dbarr['DBUSER'], $dbarr['DBPASS']);
     }
 
     // 单例
@@ -25,18 +26,53 @@ class admin extends \classes\be
     // Denglu
     public function admin_login() {
         $wx_admin_token = $this->admin_protoken();
-        $wx_admin_user = mysql_escape_string($_GET['wx_admin_user']);
-        $wx_admin_pass = mysql_escape_string($_GET['wx_admin_pass']);
+        $wx_admin_user = mysql_escape_string($_POST['wx_admin_user']);
+        $wx_admin_pass = mysql_escape_string($_POST['wx_admin_pass']);
 
         $loginres = $this->select_Tab('wx_admin')->select_Obj('count(*)')->select_Where("wx_admin_user='$wx_admin_user' and wx_admin_pass = '$wx_admin_pass'")->search_command();
 
-        var_dump($loginres);
+        // var_dump($loginres);
 
-        // if (count($loginres[0])) {
-        //     # code...
-        // }
+        if ($loginres[0]['count(*)']) {
+            return false;
+        }
+
+        // 使用事务提交
+        $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
+        $this->PDO_LINK->beginTransaction(); 
+
+        $data = array('wx_admin_token' => $wx_admin_token);
+        $update = $this->select_Tab('wx_admin')->select_Where("wx_admin_user='$wx_admin_user'")->update_new_command($data);
+
+        if ($update['pass'] == false) {
+            // 如果某一步错误的话就回滚操作
+            $this->PDO_LINK->rollBack(); 
+            $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
+            return false;
+        }
+
+        $this->PDO_LINK->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
+        setcookie('token',$wx_admin_token);
+        return true;
     }
 
+    // 验证token
+    public function admin_vertifytoken() {
+        if (!$_COOKIE['token']) {
+            return false;
+        }
+
+        $token = $_COOKIE['token'];
+
+        $tokenres = $this->select_Tab('wx_admin')->select_Obj('count(*)')->select_Where("wx_admin_token='$token'")->search_command();
+
+        if ($tokenres[0]['count(*)'] > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    // 生成token
     private function admin_protoken() {
         return sha1(time().$_SERVER['HTTP_HOST'].mt_rand(0,9999));
     }
@@ -80,13 +116,6 @@ class admin extends \classes\be
     } 
 
 }
-
-$admin = admin::getInstance();
-
-$action = $_GET['action'];
-$admin->$action();
-
-// echo "test";
 
 
 
