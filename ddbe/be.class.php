@@ -165,7 +165,7 @@ class be extends \db
         $path = 'ddstorage/';
         session_start();
         $time = time();
-        
+
         if ($time == $_SESSION['time']) {
             $time+=1;
         }
@@ -178,7 +178,7 @@ class be extends \db
 
         return array(
             'errorcode' => $res, 
-            'filename' => $path.$filename.'.jpg',
+            'filename' => $path.$filename,
             'msg' => $isActokenInvalidjson->{'errcode'} 
         );
     }
