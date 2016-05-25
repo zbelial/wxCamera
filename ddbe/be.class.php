@@ -255,16 +255,24 @@ class be extends \db
         if (count($ResArr) > 0) {
             // var_dump($ResArr);
             // echo "已经存在";
-
-            header("Location: ../ddfe/index.html");
+            if ($_SESSION['choose'] == 'select') {
+                header("Location: ../ddfe/index.html?c=select");
+            } else {
+                header("Location: ../ddfe/index.html?c=insert");
+            }
+            
             exit();
         } else {
             // 如果此用户不存在的话就 加入此用户
             $InsertResArr = $this->select_Tab('wx_users')->select_Obj('wx_users_openid,wx_users_sex,wx_users_img,wx_users_nickname')->set_newObj("'$openid','$sex','$headimgurl','$nickname'")->insert_command();
 
             if($InsertResArr['pass'] == true) {
+                if ($_SESSION['choose'] == 'select') {
+                    header("Location: ../ddfe/index.html?c=select");
+                } else {
+                    header("Location: ../ddfe/index.html?c=insert");
+                }
 
-                header("Location: ../ddfe/index.html");
                 exit();
             } else {
 

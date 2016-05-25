@@ -44,6 +44,14 @@ var callback = {
 $(document).ready(function() {
 	var take_userinfo_url = requestfront + "action=takeuserinfo";
 	http_method.ajaxmethod(take_userinfo_url,null,"GET","json",callback.finishtakeUserinfo);
+
+	var getVariableArr = getElement(); // 取get参数
+	var c = getVariableArr[0];
+	if (c == 'insert') {
+		window.location.href="location.html";
+	} else {
+		window.location.href="myorder.html";
+	}
 });
 
 

@@ -40,6 +40,8 @@ function save_to_file($image){
 
 switch ($action) {
 	case 'getuserinfo':
+		session_start();
+		$_SESSION['choose'] = $_GET['choose'];
 		$code = $_GET['code'];
 		$getOpenidURL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".AppID."&secret=".AppSecret."&code=$code&grant_type=authorization_code";
 
