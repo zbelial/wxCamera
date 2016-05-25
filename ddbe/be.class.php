@@ -178,7 +178,7 @@ class be extends \db
 
         return array(
             'errorcode' => $res, 
-            'filename' => $path.time().'.jpg',
+            'filename' => $path.$filename.'.jpg',
             'msg' => $isActokenInvalidjson->{'errcode'} 
         );
     }
