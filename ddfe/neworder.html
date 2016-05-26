@@ -33,6 +33,7 @@ var requestfront = "../ddbe/api.php?";
 var x,y,place; // 位置 
 var selectlocalIds = []; // 图片本地
 var selectServerIds = []; // 上传图片的 JSON.stringify();
+var selectCount = 0; // 选择图片的当前个数
 
 // html show ready
 $(document).ready(function() {
@@ -99,7 +100,7 @@ function phonephoto() {
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
         success: function (res) {
-            selectlocalIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            selectlocalIds = selectlocalIds.concat(res.localIds); // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 
             var errMsg = res.errMsg;
             if(errMsg == 'chooseImage:ok') {
@@ -115,7 +116,7 @@ function phonephoto() {
                 $("#state").addClass('alert alert-success');
                 $("#state").html("选择成功" + content);
             } else {
-                alert("上传失败");
+                alert("选择失败");
             }
         }
     });
