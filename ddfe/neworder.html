@@ -109,8 +109,8 @@ function phonephoto() {
                 for(var i = 0;i < selectlocalIds.length; i++ ) {
                     alert(selectlocalIds[i]);
                     content = content
+                    + "<a href=\"javascript:removeImg('" + selectlocalIds[i] + "')\">"
                     + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[i] + "\">"
-                    + "<a href=\"javascript:removeImg(" + selectlocalIds[i] + ")\">删除"
                     + "</a>";
                 }
 
