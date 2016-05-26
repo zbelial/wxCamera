@@ -79,20 +79,6 @@ function Trans_php_time_to_str(timestamp,n){
   }
 }
 
-// 移除数组某个元素 array.remove('parameter'); variable
-Array.prototype.remove=function(dx)  // 定义方法移除数组某个元素
-{ 
-    if(isNaN(dx)||dx>this.length){return false;} 
-    for(var i=0,n=0;i<this.length;i++) 
-    { 
-        if(this[i]!=this[dx]) 
-        { 
-            this[n++]=this[i]; 
-        } 
-    } 
-    this.length-=1; 
-} 
-
 /*
  *  统一UI
  */
