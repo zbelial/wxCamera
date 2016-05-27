@@ -42,6 +42,8 @@ var callback = {
 
 // html show ready
 $(document).ready(function() {
+	requestfront = "../ddbe/api.php?";
+	
 	var take_userinfo_url = requestfront + "action=takeuserinfo";
 	http_method.ajaxmethod(take_userinfo_url,null,"GET","json",callback.finishtakeUserinfo);
 
