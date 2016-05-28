@@ -48,7 +48,7 @@ var callback = {
 		// 图片
 		var imgContent = "";
 		for(var key in imgarr) {
-			imgContent += '<img class="img-thumbnail" width="80px" height="80px" src="' + imgarr[key].wx_img_url + '" />';
+			imgContent += '<img class="img-thumbnail" width="150px" height="150px" src="' + imgarr[key].wx_img_url + '" />';
 			alert("DEBUG:" + imgarr[key].wx_img_url);
 		}
 		$("#imgdiv").html(imgContent);
@@ -57,7 +57,7 @@ var callback = {
 		var quesContent = '<div>'
 		+ question.wx_questions_content
 		+ '<br>' + Trans_php_time_to_str(question.wx_questions_id,1)
-		+ '<br>:' +  question.wx_questions_place
+		+ '<br>' +  question.wx_questions_place
 		+ '</div>';
 		$("#quesdiv").html(quesContent);
 
@@ -74,13 +74,8 @@ var callback = {
 		*/
 		var replyContent = "";
 		for(var key in replyarr) {
-			replyContent += '<div>'
-	            +  '<h3>回复日期'
-	            +  Trans_php_time_to_str(replyarr[key].wx_reply_id,1)
-	            +  '</h3>'
-	            +'</div>'
-	            +  replyarr[key].wx_reply_content
-            +'</div>';
+			replyContent +=  replyarr[key].wx_reply_content + '<br>'
+	            +  Trans_php_time_to_str(replyarr[key].wx_reply_id,1) + '<hr>';
 		}
 		$("#replydiv").html(replyContent);
 		
