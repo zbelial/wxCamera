@@ -23,8 +23,8 @@ var http_method = {
 
 			},error: function(e) {
 				// console.log(e);
-				alert("请求错误！");
-                successfunc(e);
+				// alert("请求错误！");
+        successfunc(e);
 			}
 		});
 	},
