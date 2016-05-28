@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>我提交的工单</title>
+	<title>随手拍</title>
 	<meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,18 +11,18 @@
     <script src="PublicJs/http.js"></script>
     <script src="PublicJs/base64jquery.js"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<body>
+<body style="background-color: #e9e9e9">
 	<input type="text" id="year" placeholder="年份" value="2016" />
 	<input type="text" id="mouth" placeholder="月份" value="" />
 	<input type="text" id="day" placeholder="日" value="" />
 	<div class="list-group">
 		<a href="javascript:mylist.unsolvelist()" class="list-group-item active">
-		  未处理工单
+		  已上报问题
 		</a>
 		<div id="unsolvediv"></div>
 		
 		<a href="javascript:mylist.solvedlist()" class="list-group-item active">
-		  已处理工单
+		  已解决问题
 		</a>
 		<div id="solveddiv"></div>
 	</div>
@@ -61,17 +61,25 @@ var callback = {
 		var resarr = result.resp;
 
 		if (resarr.length > 0) {
+			// content = '<div st>已解决问题</div>';
 			for (var i = 0; i < resarr.length; i++) {
 				content += '<a href="desc_order.html?wx_questions_id=' 
 				+ resarr[i].wx_questions_id
-				+ 'class="list-group-item"><h4 class="list-group-item-heading">'
-				+ resarr[i].wx_questions_content.substr(0,10) 
-				+ '...</h4>'
-				+ '<p>'
-				+ '地点:' + resarr[i].wx_questions_place
-				+ '<br>'
-				+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1)
-				+ '</p>'
+				+ '>'
+				+ '<div id="tableview" style="background-color: white;padding:8px;padding-left:15px;margin-bottom:5px">'
+				+ '	<font size="3">'
+				+ '		<p>事件摘要：'+resarr[i].wx_questions_content.substr(0,10)+'</p>'
+				+ '		<p>提交时间：'+Trans_php_time_to_str(resarr[i].wx_questions_id,1)+'</p>'
+				+ '		<p>当前状态：问题已解决</p>'
+				+ '	</font>'
+				+ '</div>'
+				// + "时间摘要:" + resarr[i].wx_questions_content.substr(0,10) 
+				// + '...</h4>'
+				// + '<p>'
+				// + '地点:' + resarr[i].wx_questions_place
+				// + '<br>'
+				// + '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1)
+				// + '</p>'
 				+ '</a>';
 			};
 
@@ -88,14 +96,14 @@ var callback = {
 			for (var i = 0; i < resarr.length; i++) {
 				content += '<a href="desc_order.html?wx_questions_id=' 
 				+ resarr[i].wx_questions_id
-				+ 'class="list-group-item"><h4 class="list-group-item-heading">'
-				+ resarr[i].wx_questions_content.substr(0,10) 
-				+ '...</h4>'
-				+ '<p>'
-				+ '地点:' + resarr[i].wx_questions_place
-				+ '<br>'
-				+ '提交日期:' + Trans_php_time_to_str(resarr[i].wx_questions_id,1)
-				+ '</p>'
+				+ '>'
+				+ '<div id="tableview" style="background-color: white;padding:8px;padding-left:15px;margin-bottom:5px">'
+				+ '	<font size="3">'
+				+ '		<p>事件摘要：'+resarr[i].wx_questions_content.substr(0,10)+'</p>'
+				+ '		<p>提交时间：'+Trans_php_time_to_str(resarr[i].wx_questions_id,1)+'</p>'
+				+ '		<p>当前状态：问题已提交</p>'
+				+ '	</font>'
+				+ '</div>'
 				+ '</a>';
 			};
 
