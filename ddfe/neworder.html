@@ -16,7 +16,8 @@
 <div id="state"></div>
 <div id="error"></div>
 <a href="javascript:phonephoto()" >
-    <img src="img/add.png" title="选择或者拍摄照片" width="150px" height="150px" />
+    <img src="img/add.png" title="选择或者拍摄照片" width="120px" height="120px" />
+    <div id="imgs" ></div>
 </a>
 <!-- <button type="button" class="btn btn-lg btn-default btn-block" onclick="phonephoto()" >选择或者拍摄照片</button> -->
 
@@ -27,7 +28,7 @@
     <span id="place" class="label label-warning"></span>
 </h4>
 <!-- <button type="button" class="btn btn-lg btn-success btn-block"  onclick="uploadImg()" >上传照片</button> -->
-<button type="button" class="btn btn-lg btn-success btn-block" style="margin-bottom:0px" onclick="uploadImg()" >提交工单</button>
+<button type="button" class="btn btn-lg btn-success btn-block" onclick="uploadImg()" >提交工单</button>
 
 <script>
 // 记住js安全域名不要加http://
@@ -117,8 +118,9 @@ function phonephoto() {
                     + "</a>";
                 }
 
-                $("#state").addClass('alert alert-success');
-                $("#state").html("选择成功" + content);
+                // $("#state").addClass('alert alert-success');
+                // $("#state").html("选择成功" + content);
+                $("#imgs").html(content);
             } else {
                 alert("选择失败");
             }
@@ -150,12 +152,13 @@ function removeImg(localId) {
         alert(selectlocalIds[i]);
         content = content
         + "<a href=\"javascript:removeImg('" + selectlocalIds[i] + "')\">"
-        + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"150px\" height=\"150px\" src=\"" + selectlocalIds[i] + "\">"
+        + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"120px\" height=\"120px\" src=\"" + selectlocalIds[i] + "\">"
         + "</a>";
     }
 
-    $("#state").addClass('alert alert-success');
-    $("#state").html("选择成功" + content);
+    // $("#state").addClass('alert alert-success');
+    // $("#state").html("选择成功" + content);
+    $("#imgs").html(content);
 }
 
 var content = "";
@@ -195,7 +198,7 @@ function uploadImg() {
                 // http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
             } else {
                 // alert("上传失败");
-                content += "<img width=\"150px\" height=\"150px\" src=\"" + localId + "\" />上传失败<br>";
+                content += "<img width=\"120px\" height=\"120px\" src=\"" + localId + "\" />上传失败<br>";
 
                 $("#error").addClass('alert alert-danger');
                 $("#error").html(content);
