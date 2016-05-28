@@ -164,6 +164,10 @@ var content = "";
 var num = 0;
 function uploadImg() {
     // alert("no"+num);
+    if (selectlocalIds.length <= 0) {
+        alert("请上传图片");
+        return false;
+    };
 
     wx.uploadImage({
         localId: selectlocalIds[num], // 需要上传的图片的本地ID，由chooseImage接口获得
