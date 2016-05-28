@@ -54,12 +54,11 @@ var callback = {
 		$("#imgdiv").html(imgContent);
 
 		//<blockquote> 问题描述
-		var quesContent = '<p><blockquote>'
+		var quesContent = '<div style="background-color:white">'
 		+ question.wx_questions_content
-		+ '</blockquote>'
 		+ '时间:' + Trans_php_time_to_str(question.wx_questions_id,1)
 		+ '<br>地点:' +  question.wx_questions_place
-		+ '</p>';
+		+ '</div>';
 		$("#quesdiv").html(quesContent);
 
 		// 回复
@@ -75,7 +74,7 @@ var callback = {
 		*/
 		var replyContent = "";
 		for(var key in replyarr) {
-			replyContent += '<div>'
+			replyContent += '<div style="background-color:white">'
 	            +  '<h3>回复日期'
 	            +  Trans_php_time_to_str(replyarr[key].wx_reply_id,1)
 	            +  '</h3>'
