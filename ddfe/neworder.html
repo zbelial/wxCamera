@@ -16,7 +16,7 @@
 <div id="state"></div>
 <div id="error"></div>
 <div id="imgs" >
-<a href="javascript:phonephoto()" ><img src="img/add.png" title="选择或者拍摄照片" width="80px" height="80px" /></a>
+<a href="javascript:phonephoto()" ><img src="img/add.png" title="选择或者拍摄照片" width="50px" height="50px" /></a>
 </div>
 <!-- <button type="button" class="btn btn-lg btn-default btn-block" onclick="phonephoto()" >选择或者拍摄照片</button> -->
 
@@ -113,13 +113,13 @@ function phonephoto() {
                     // alert(selectlocalIds[i]);
                     content = content
                     + "<a href=\"javascript:removeImg('" + selectlocalIds[i] + "')\">"
-                    + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"80px\" height=\"80px\" src=\"" + selectlocalIds[i] + "\">"
+                    + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[i] + "\">"
                     + "</a>";
                 }
 
                 // $("#state").addClass('alert alert-success');
                 // $("#state").html("选择成功" + content);
-                $("#imgs").html('<a href="javascript:phonephoto()" ><img src="img/add.png" title="选择或者拍摄照片" width="80px" height="80px" /></a>'+content);
+                $("#imgs").html('<a href="javascript:phonephoto()" ><img src="img/add.png" title="选择或者拍摄照片" width="50px" height="50px" /></a>'+content);
             } else {
                 alert("选择失败");
             }
@@ -151,13 +151,13 @@ function removeImg(localId) {
         // alert(selectlocalIds[i]);
         content = content
         + "<a href=\"javascript:removeImg('" + selectlocalIds[i] + "')\">"
-        + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"80px\" height=\"80px\" src=\"" + selectlocalIds[i] + "\">"
+        + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"50px\" height=\"50px\" src=\"" + selectlocalIds[i] + "\">"
         + "</a>";
     }
 
     // $("#state").addClass('alert alert-success');
     // $("#state").html("选择成功" + content);
-    $("#imgs").html('<a href="javascript:phonephoto()" ><img src="img/add.png" title="选择或者拍摄照片" width="80px" height="80px" /></a>' + content);
+    $("#imgs").html('<a href="javascript:phonephoto()" ><img src="img/add.png" title="选择或者拍摄照片" width="50px" height="50px" /></a>' + content);
 }
 
 var content = "";
@@ -201,7 +201,7 @@ function uploadImg() {
                 // http_method.ajaxmethod(downurl,data,"POST","json",callback.finishdownload);
             } else {
                 // alert("上传失败");
-                content += "<img width=\"80px\" height=\"80px\" src=\"" + localId + "\" />上传失败<br>";
+                content += "<img width=\"50px\" height=\"50px\" src=\"" + localId + "\" />上传失败<br>";
 
                 $("#error").addClass('alert alert-danger');
                 $("#error").html(content);
