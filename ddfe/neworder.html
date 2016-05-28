@@ -82,7 +82,7 @@ function commitQuestions() {
     // var test = ["a","b"];
     // var wx_img_url_data = JSON.stringify(test); // 图片serverId数组
 
-    alert("DEBUG:" + wx_img_url_data);
+    // alert("DEBUG:" + wx_img_url_data);
 
     var requrl = requestfront + "action=commit";
     // 提交数据
@@ -110,7 +110,7 @@ function phonephoto() {
                 var content = "";
 
                 for(var i = 0;i < selectlocalIds.length; i++ ) {
-                    alert(selectlocalIds[i]);
+                    // alert(selectlocalIds[i]);
                     content = content
                     + "<a href=\"javascript:removeImg('" + selectlocalIds[i] + "')\">"
                     + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"80px\" height=\"80px\" src=\"" + selectlocalIds[i] + "\">"
@@ -148,7 +148,7 @@ function removeImg(localId) {
     var content = "";
 
     for(var i = 0;i < selectlocalIds.length; i++ ) {
-        alert(selectlocalIds[i]);
+        // alert(selectlocalIds[i]);
         content = content
         + "<a href=\"javascript:removeImg('" + selectlocalIds[i] + "')\">"
         + "<img id=\"" + selectlocalIds[i] + "\" class=\"img-thumbnail\" width=\"80px\" height=\"80px\" src=\"" + selectlocalIds[i] + "\">"
@@ -163,7 +163,7 @@ function removeImg(localId) {
 var content = "";
 var num = 0;
 function uploadImg() {
-    alert("no"+num);
+    // alert("no"+num);
 
     wx.uploadImage({
         localId: selectlocalIds[num], // 需要上传的图片的本地ID，由chooseImage接口获得
@@ -175,7 +175,7 @@ function uploadImg() {
 
             if(errMsg == 'uploadImage:ok') {
                 selectServerIds[num] = serverId;
-                alert('第'+num+'个'+selectServerIds[num]);
+                // alert('第'+num+'个'+selectServerIds[num]);
 
                 $("#state").addClass('alert alert-success');
                 $("#state").html("上传成功");
@@ -227,7 +227,7 @@ var callback = {
         // 配置信息
         wx.config({
             beta: true, // 开启内测接口调用
-            debug: true,
+            debug: false,
             appId: mydata.myappid,
             timestamp: mydata.mytemestamp,
             nonceStr: mydata.mynoncestr,

@@ -52,7 +52,7 @@ function showPosition(position) {
 	geocoder = new qq.maps.Geocoder({
         complete : function(result){
         	// alert("DEBUG:" + result.detail.address);
-        	$('#container').html("area:" + result.detail.address);
+        	$('#container').html("" + result.detail.address);
 
         	var url = "neworder.html?place=" + result.detail.address + "&x=" + lat + "&y=" + lng;
         	url = encodeURI(url);
