@@ -51,7 +51,7 @@ function showPosition(position) {
 	var info = new qq.maps.InfoWindow({map: map});
 	geocoder = new qq.maps.Geocoder({
         complete : function(result){
-        	alert("您的位置:" + result.detail.address + ',' + lat + ',' +lng);
+        	// alert("您的位置:" + result.detail.address + ',' + lat + ',' +lng);
         	$('#container').html("" + result.detail.address);
 
         	var url = "neworder.html?place=" + result.detail.address + "&x=" + lat + "&y=" + lng;

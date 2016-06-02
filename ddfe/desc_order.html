@@ -26,10 +26,10 @@ var wx_questions_id = getVariableArr[0];
 var state = getVariableArr[1]; // 状态
 var stateString = "";
 if (state == 'solved') {
-	stateString = '<img width="20px" height="20px" src="img/success.png" />已解决问题';
+	stateString = '<img width="30px" height="30px" src="img/success.png" />问题已处理';
 
 } else {
-	stateString = '<img width="30px" height="30px" src="img/fail.png" />已上报问题';
+	stateString = '<img width="30px" height="30px" src="img/fails.png" />问题已上报';
 }
 
 $("#status").html(stateString);
