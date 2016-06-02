@@ -217,7 +217,7 @@ class be extends \db
         //https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
         $accesstoken = $parameterArr['access_token'];
         $openid = $parameterArr['openid'];
-
+        /*
         $result = $this->requestWithGet("https://api.weixin.qq.com/sns/userinfo?access_token=$accesstoken&openid=$openid&lang=zh_CN");
 
         $resultjson = json_decode($result);
@@ -225,7 +225,7 @@ class be extends \db
         $nickname = $resultjson->{'nickname'};
         $sex = $resultjson->{'sex'};
         $headimgurl = $resultjson->{'headimgurl'};
-
+        */
         /* var_dump($result);
         [json object]
         {  
@@ -248,9 +248,9 @@ class be extends \db
 
         session_start();
         $_SESSION['openid'] = $openid;
-        $_SESSION['nickname'] = $nickname;
-        $_SESSION['sex'] = $sex;
-        $_SESSION['headimgurl'] = $headimgurl;
+        // $_SESSION['nickname'] = $nickname;
+        // $_SESSION['sex'] = $sex;
+        // $_SESSION['headimgurl'] = $headimgurl;
 
         if (count($ResArr) > 0) {
             // var_dump($ResArr);
@@ -264,7 +264,7 @@ class be extends \db
             exit();
         } else {
             // 如果此用户不存在的话就 加入此用户
-            $InsertResArr = $this->select_Tab('wx_users')->select_Obj('wx_users_openid,wx_users_sex,wx_users_img,wx_users_nickname')->set_newObj("'$openid','$sex','$headimgurl','$nickname'")->insert_command();
+            $InsertResArr = $this->select_Tab('wx_users')->select_Obj('wx_users_openid')->set_newObj("'$openid'")->insert_command();
 
             if($InsertResArr['pass'] == true) {
                 if ($_SESSION['choose'] == 'select') {
